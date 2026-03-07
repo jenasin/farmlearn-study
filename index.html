@@ -3,1295 +3,1016 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FarmLearn Study - Gamified Agricultural Education</title>
+    <title>FarmLearn Study</title>
     <style>
-        :root {
-            --green-50: #f0fdf4;
-            --green-100: #dcfce7;
-            --green-200: #bbf7d0;
-            --green-300: #86efac;
-            --green-400: #4ade80;
-            --green-500: #22c55e;
-            --green-600: #16a34a;
-            --green-700: #15803d;
-            --green-800: #166534;
-            --green-900: #14532d;
-            --gray-50: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-300: #d1d5db;
-            --gray-400: #9ca3af;
-            --gray-500: #6b7280;
-            --gray-600: #4b5563;
-            --gray-700: #374151;
-            --gray-800: #1f2937;
-            --gray-900: #111827;
-            --red-500: #ef4444;
-            --blue-500: #3b82f6;
-            --blue-600: #2563eb;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--green-50);
-            color: var(--gray-800);
-            line-height: 1.6;
+            font-family: 'Segoe UI', -apple-system, sans-serif;
+            background: #f0fdf4;
+            color: #1f2937;
+            line-height: 1.7;
             min-height: 100vh;
         }
-
         .container {
-            max-width: 720px;
+            max-width: 640px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 16px;
         }
 
         /* Header */
-        .study-header {
-            background: linear-gradient(135deg, var(--green-700), var(--green-600));
+        .header {
+            background: linear-gradient(135deg, #166534, #15803d);
             color: white;
-            padding: 24px 20px;
+            padding: 20px;
             text-align: center;
-            border-bottom: 4px solid var(--green-800);
         }
-
-        .study-header h1 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .study-header .subtitle {
-            font-size: 14px;
-            opacity: 0.9;
-        }
+        .header h1 { font-size: 24px; margin-bottom: 4px; }
+        .header p { opacity: 0.9; font-size: 15px; }
 
         /* Progress bar */
-        .progress-container {
-            background: var(--green-100);
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--green-200);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .progress-bar-bg {
-            background: var(--green-200);
-            border-radius: 10px;
-            height: 10px;
+        .progress-bar {
+            background: #e5e7eb;
+            height: 12px;
+            border-radius: 6px;
+            margin: 20px 0;
             overflow: hidden;
         }
-
-        .progress-bar-fill {
-            background: linear-gradient(90deg, var(--green-500), var(--green-400));
+        .progress-fill {
             height: 100%;
-            border-radius: 10px;
-            transition: width 0.4s ease;
+            background: linear-gradient(90deg, #22c55e, #16a34a);
+            border-radius: 6px;
+            transition: width 0.5s ease;
         }
-
-        .progress-label {
-            font-size: 13px;
-            color: var(--green-700);
-            margin-top: 6px;
+        .step-label {
+            text-align: center;
+            font-size: 16px;
             font-weight: 600;
-        }
-
-        /* Sections */
-        .section {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .card {
-            background: white;
-            border-radius: 12px;
-            padding: 28px;
-            margin: 20px 0;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
-            border: 1px solid var(--green-100);
-        }
-
-        .card h2 {
-            font-size: 20px;
-            color: var(--green-800);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .card h3 {
-            font-size: 17px;
-            color: var(--green-700);
-            margin: 20px 0 10px 0;
-            padding-bottom: 6px;
-            border-bottom: 2px solid var(--green-100);
-        }
-
-        .card p {
-            color: var(--gray-600);
-            font-size: 15px;
-            margin-bottom: 12px;
-        }
-
-        /* Intro page */
-        .intro-content {
-            font-size: 15px;
-            line-height: 1.8;
-        }
-
-        .intro-content ul {
-            margin: 12px 0;
-            padding-left: 24px;
-        }
-
-        .intro-content li {
-            margin-bottom: 6px;
-        }
-
-        .consent-box {
-            background: var(--green-50);
-            border: 2px solid var(--green-200);
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-        }
-
-        .consent-box label {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--green-800);
-        }
-
-        .consent-box input[type="checkbox"] {
-            margin-top: 3px;
-            width: 20px;
-            height: 20px;
-            accent-color: var(--green-600);
-        }
-
-        /* Form elements */
-        .form-group {
+            color: #166534;
             margin-bottom: 20px;
         }
 
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            font-size: 14px;
-            color: var(--gray-700);
-            margin-bottom: 6px;
-        }
-
-        .form-group .required::after {
-            content: ' *';
-            color: var(--red-500);
-        }
-
-        input[type="text"],
-        input[type="number"],
-        select,
-        textarea {
-            width: 100%;
-            padding: 12px 14px;
-            border: 2px solid var(--gray-200);
-            border-radius: 8px;
-            font-size: 15px;
-            font-family: inherit;
-            transition: border-color 0.2s;
+        /* Card */
+        .card {
             background: white;
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
         }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--green-500);
-            box-shadow: 0 0 0 3px rgba(34,197,94,0.1);
+        .card h2 {
+            font-size: 24px;
+            color: #166534;
+            margin-bottom: 16px;
         }
-
-        textarea {
-            resize: vertical;
-            min-height: 80px;
+        .card h3 {
+            font-size: 20px;
+            color: #15803d;
+            margin: 24px 0 12px;
         }
-
-        /* Likert scale */
-        .likert-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 10px 0;
-            font-size: 14px;
-        }
-
-        .likert-table thead th {
-            padding: 8px 4px;
-            text-align: center;
-            font-size: 12px;
-            color: var(--gray-500);
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .likert-table thead th:first-child {
-            text-align: left;
-            width: 50%;
-        }
-
-        .likert-table tbody tr {
-            border-bottom: 1px solid var(--gray-100);
-        }
-
-        .likert-table tbody tr:hover {
-            background: var(--green-50);
-        }
-
-        .likert-table td {
-            padding: 12px 4px;
-            text-align: center;
-        }
-
-        .likert-table td:first-child {
-            text-align: left;
-            padding-right: 12px;
-            font-size: 14px;
-            color: var(--gray-700);
-        }
-
-        .likert-table input[type="radio"] {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--green-600);
-            cursor: pointer;
-        }
-
-        .likert-item-num {
-            color: var(--green-600);
-            font-weight: 700;
-            margin-right: 6px;
-        }
-
-        /* Quiz / knowledge test */
-        .quiz-question {
-            margin-bottom: 24px;
-            padding: 16px;
-            background: var(--gray-50);
-            border-radius: 10px;
-            border: 1px solid var(--gray-200);
-        }
-
-        .quiz-question p {
-            font-weight: 600;
-            color: var(--gray-800);
+        .card p, .card li {
+            font-size: 17px;
             margin-bottom: 10px;
         }
+        .card ul, .card ol {
+            padding-left: 24px;
+        }
 
-        .quiz-option {
+        /* Big step indicator */
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #16a34a;
+            color: white;
+            font-size: 22px;
+            font-weight: 700;
+            margin-right: 12px;
+        }
+        .step-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 8px 12px;
-            margin: 4px 0;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.15s;
+            margin-bottom: 16px;
+        }
+        .step-header h2 {
+            margin-bottom: 0;
+            font-size: 24px;
         }
 
-        .quiz-option:hover {
-            background: var(--green-100);
+        /* Form elements - BIG */
+        label {
+            display: block;
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #374151;
         }
-
-        .quiz-option input[type="radio"] {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--green-600);
+        input[type="text"], input[type="number"], select, textarea {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 18px;
+            border: 2px solid #d1d5db;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            background: #f9fafb;
+            transition: border-color 0.2s;
         }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #22c55e;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(34,197,94,0.15);
+        }
+        textarea { min-height: 100px; resize: vertical; }
 
-        .quiz-option label {
+        /* Radio / Likert */
+        .likert-group {
+            margin-bottom: 24px;
+            padding: 16px;
+            background: #f9fafb;
+            border-radius: 12px;
+        }
+        .likert-question {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1f2937;
+        }
+        .likert-options {
+            display: flex;
+            gap: 0;
+            justify-content: space-between;
+        }
+        .likert-option {
+            flex: 1;
+            text-align: center;
+        }
+        .likert-option input[type="radio"] {
+            display: none;
+        }
+        .likert-option label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 4px;
+            border-radius: 10px;
             cursor: pointer;
             font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        .likert-option label:hover {
+            background: #dcfce7;
+        }
+        .likert-option input[type="radio"]:checked + label {
+            background: #22c55e;
+            color: white;
+            border-color: #16a34a;
+            font-weight: 700;
+        }
+        .likert-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 3px solid #d1d5db;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+        .likert-option input[type="radio"]:checked + label .likert-circle {
+            border-color: white;
+            background: rgba(255,255,255,0.3);
+        }
+        .likert-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 4px;
+            padding: 0 4px;
         }
 
         /* Buttons */
         .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 14px 28px;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.15s;
+            display: block;
             width: 100%;
+            padding: 16px 24px;
+            font-size: 20px;
+            font-weight: 700;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-
-        .btn-primary {
-            background: var(--green-600);
+        .btn-green {
+            background: #22c55e;
             color: white;
-            border-bottom: 4px solid var(--green-800);
+            border-bottom: 4px solid #16a34a;
         }
-
-        .btn-primary:hover {
-            background: var(--green-500);
-        }
-
-        .btn-primary:active {
-            transform: translateY(4px);
-            border-bottom-width: 0;
-        }
-
-        .btn-primary:disabled {
-            background: var(--gray-300);
-            border-bottom-color: var(--gray-400);
+        .btn-green:hover { background: #16a34a; }
+        .btn-green:active { transform: translateY(4px); border-bottom-width: 0; }
+        .btn-green:disabled {
+            background: #9ca3af;
+            border-bottom-color: #6b7280;
             cursor: not-allowed;
         }
-
-        .btn-secondary {
+        .btn-outline {
             background: white;
-            color: var(--green-700);
-            border: 2px solid var(--green-300);
-            border-bottom: 4px solid var(--green-400);
+            color: #16a34a;
+            border: 3px solid #16a34a;
+            border-bottom: 5px solid #16a34a;
+        }
+        .btn-outline:hover { background: #f0fdf4; }
+        .btn-blue {
+            background: #3b82f6;
+            color: white;
+            border-bottom: 4px solid #2563eb;
         }
 
-        .btn-secondary:hover {
-            background: var(--green-50);
-        }
+        /* Section visibility */
+        .section { display: none; }
+        .section.active { display: block; }
 
-        .btn-row {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .btn-row .btn {
-            flex: 1;
-        }
-
-        /* App section */
-        .app-frame-container {
-            margin: 20px 0;
-        }
-
-        .app-instructions {
-            background: var(--green-50);
-            border: 2px solid var(--green-200);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 16px;
-        }
-
-        .app-instructions h3 {
-            border: none;
-            margin-top: 0;
-            color: var(--green-800);
-        }
-
-        .app-instructions ol {
-            padding-left: 24px;
-            margin: 10px 0;
-        }
-
-        .app-instructions li {
-            margin-bottom: 6px;
-            font-size: 14px;
-        }
-
-        .app-link-btn {
+        /* App link button */
+        .app-link {
             display: block;
-            background: linear-gradient(135deg, #58cc02, #4ade80);
+            background: linear-gradient(135deg, #22c55e, #16a34a);
             color: white;
             text-decoration: none;
-            padding: 18px 24px;
+            text-align: center;
+            padding: 24px;
             border-radius: 16px;
-            font-size: 18px;
+            font-size: 22px;
             font-weight: 700;
-            text-align: center;
-            border-bottom: 4px solid #58a700;
-            transition: all 0.15s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .app-link-btn:hover {
-            background: linear-gradient(135deg, #61d802, #58cc02);
-        }
-
-        .app-link-btn:active {
-            transform: translateY(4px);
-            border-bottom-width: 0;
-        }
-
-        .timer-notice {
-            text-align: center;
-            font-size: 14px;
-            color: var(--gray-500);
-            margin-top: 12px;
-        }
-
-        /* Participant ID display */
-        .pid-badge {
-            display: inline-block;
-            background: var(--green-100);
-            color: var(--green-800);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 700;
-            font-family: monospace;
-        }
-
-        /* Completion */
-        .completion-icon {
-            text-align: center;
-            font-size: 64px;
             margin: 20px 0;
+            border-bottom: 5px solid #166534;
+            transition: all 0.2s;
+        }
+        .app-link:hover { filter: brightness(1.05); }
+        .app-link:active { transform: translateY(5px); border-bottom-width: 0; }
+        .app-link .app-icon { font-size: 36px; display: block; margin-bottom: 8px; }
+
+        /* Checkbox */
+        .consent-box {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            padding: 16px;
+            background: #fef3c7;
+            border-radius: 12px;
+            margin: 16px 0;
+            border: 2px solid #f59e0b;
+        }
+        .consent-box input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            margin-top: 2px;
+            flex-shrink: 0;
+            accent-color: #16a34a;
+        }
+        .consent-box label {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 0;
         }
 
-        .completion-msg {
-            text-align: center;
-            font-size: 18px;
-            color: var(--green-700);
-            font-weight: 600;
-        }
-
-        /* Validation error */
+        /* Error */
         .error-msg {
-            color: var(--red-500);
-            font-size: 13px;
-            margin-top: 4px;
+            color: #ef4444;
+            font-size: 15px;
+            font-weight: 600;
+            margin: 8px 0;
             display: none;
         }
 
-        .error-msg.show {
-            display: block;
+        /* Thank you */
+        .thank-you {
+            text-align: center;
+            padding: 40px 20px;
         }
-
-        .field-error {
-            border-color: var(--red-500) !important;
-        }
-
-        /* Scale section label */
-        .scale-section-label {
-            background: var(--green-600);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 14px;
+        .thank-you .icon { font-size: 72px; margin-bottom: 16px; }
+        .thank-you h2 { font-size: 28px; color: #16a34a; margin-bottom: 12px; }
+        .thank-you p { font-size: 18px; color: #6b7280; }
+        .pid-box {
+            background: #dcfce7;
+            border: 2px solid #22c55e;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 20px 0;
+            font-size: 20px;
             font-weight: 700;
-            display: inline-block;
-            margin-bottom: 12px;
-            letter-spacing: 0.5px;
+            color: #166534;
         }
 
-        .scale-description {
-            font-size: 13px;
-            color: var(--gray-500);
-            font-style: italic;
+        /* Scale header */
+        .scale-header {
+            background: #166534;
+            color: white;
+            padding: 14px 20px;
+            border-radius: 12px;
             margin-bottom: 16px;
+            font-size: 18px;
+            font-weight: 700;
         }
 
-        /* Responsive */
-        @media (max-width: 600px) {
-            .container { padding: 12px; }
-            .card { padding: 18px; }
-            .likert-table thead th { font-size: 10px; }
-            .likert-table td:first-child { font-size: 13px; }
-            .btn-row { flex-direction: column; }
+        .required { color: #ef4444; }
+
+        @media (max-width: 480px) {
+            .card { padding: 20px; }
+            .card h2 { font-size: 21px; }
+            .card p, .card li { font-size: 16px; }
+            .likert-option label { font-size: 12px; padding: 8px 2px; }
+            .likert-circle { width: 28px; height: 28px; font-size: 14px; }
         }
     </style>
 </head>
 <body>
 
-<div class="study-header">
-    <h1>FarmLearn Evaluation Study</h1>
-    <div class="subtitle">Gamified Agricultural Education Research</div>
-</div>
-
-<div class="progress-container">
-    <div class="progress-bar-bg">
-        <div class="progress-bar-fill" id="progressBar" style="width: 0%"></div>
-    </div>
-    <div class="progress-label" id="progressLabel">Step 1 of 6</div>
+<div class="header">
+    <h1>FarmLearn Study</h1>
+    <p>Gamified Agricultural Education Research</p>
 </div>
 
 <div class="container">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="step-label" id="stepLabel">Step 1 of 4</div>
 
-    <!-- ============ SECTION 1: INTRO ============ -->
-    <div class="section active" id="sec-intro">
+    <!-- ==================== STEP 1: INTRO ==================== -->
+    <div class="section active" id="step1">
         <div class="card">
-            <h2>Welcome to the FarmLearn Study</h2>
-            <div class="intro-content">
-                <p>Thank you for participating in this research study evaluating <strong>FarmLearn</strong>, a gamified mobile web application for agricultural education.</p>
+            <div class="step-header">
+                <span class="step-number">1</span>
+                <h2>Welcome</h2>
+            </div>
+            <p>You are invited to participate in a research study evaluating <strong>FarmLearn</strong> - a gamified mobile learning application for agricultural education.</p>
 
-                <h3>About This Study</h3>
-                <p>This study investigates how gamification elements (levels, progress tracking, timed challenges, and immediate feedback) affect learning outcomes and user experience in agricultural education.</p>
+            <h3>What will you do?</h3>
+            <ol>
+                <li><strong>Fill in basic info</strong> about yourself (2 min)</li>
+                <li><strong>Try the FarmLearn app</strong> - play through farming quiz levels (15 min)</li>
+                <li><strong>Tell us what you think</strong> - short questionnaire about the app (5 min)</li>
+            </ol>
 
-                <h3>What You Will Do</h3>
-                <ul>
-                    <li>Fill in a brief demographic questionnaire (2 min)</li>
-                    <li>Use the FarmLearn application for approximately 10-15 minutes</li>
-                    <li>Complete a post-use evaluation survey (5 min)</li>
-                    <li>Answer a brief knowledge quiz (2 min)</li>
-                </ul>
+            <p style="margin-top:16px;"><strong>Total time:</strong> approximately 20-25 minutes.</p>
+            <p>Your responses are <strong>anonymous</strong> and will be used only for research purposes.</p>
 
-                <h3>Important Information</h3>
-                <ul>
-                    <li>Total estimated time: <strong>20-25 minutes</strong></li>
-                    <li>Your responses are <strong>anonymous</strong> and identified only by a participant code</li>
-                    <li>There are no right or wrong answers in the survey sections</li>
-                    <li>You may withdraw at any time without consequence</li>
-                    <li>Data will be used solely for academic research purposes</li>
-                </ul>
+            <div class="consent-box">
+                <input type="checkbox" id="consentCheck">
+                <label for="consentCheck">I understand the purpose of this study and I voluntarily agree to participate. I can withdraw at any time.</label>
+            </div>
+            <div class="error-msg" id="consentError">Please check the consent box to continue.</div>
 
-                <div class="consent-box">
-                    <label>
-                        <input type="checkbox" id="consentCheck">
-                        <span>I have read the above information and voluntarily consent to participate in this study. I understand that my responses are anonymous and will be used for academic research only.</span>
-                    </label>
+            <button class="btn btn-green" onclick="goToStep(2)">START</button>
+        </div>
+    </div>
+
+    <!-- ==================== STEP 2: DEMOGRAPHICS ==================== -->
+    <div class="section" id="step2">
+        <div class="card">
+            <div class="step-header">
+                <span class="step-number">2</span>
+                <h2>About You</h2>
+            </div>
+
+            <label for="age">Age <span class="required">*</span></label>
+            <input type="number" id="age" min="17" max="99" placeholder="e.g. 20">
+
+            <label for="gender">Gender <span class="required">*</span></label>
+            <select id="gender">
+                <option value="">-- Select --</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other / Prefer not to say</option>
+            </select>
+
+            <label for="program">Study Programme <span class="required">*</span></label>
+            <input type="text" id="program" placeholder="e.g. Computer Science">
+
+            <label for="yearOfStudy">Year of Study <span class="required">*</span></label>
+            <select id="yearOfStudy">
+                <option value="">-- Select --</option>
+                <option value="1">1st year (Bachelor)</option>
+                <option value="2">2nd year (Bachelor)</option>
+                <option value="3">3rd year (Bachelor)</option>
+                <option value="4">1st year (Master)</option>
+                <option value="5">2nd year (Master)</option>
+                <option value="other">Other</option>
+            </select>
+
+            <div class="likert-group">
+                <div class="likert-question">How much do you know about farming? <span class="required">*</span></div>
+                <div class="likert-options">
+                    <div class="likert-option">
+                        <input type="radio" name="farmKnowledge" id="fk1" value="1">
+                        <label for="fk1"><span class="likert-circle">1</span>Nothing</label>
+                    </div>
+                    <div class="likert-option">
+                        <input type="radio" name="farmKnowledge" id="fk2" value="2">
+                        <label for="fk2"><span class="likert-circle">2</span>A little</label>
+                    </div>
+                    <div class="likert-option">
+                        <input type="radio" name="farmKnowledge" id="fk3" value="3">
+                        <label for="fk3"><span class="likert-circle">3</span>Some</label>
+                    </div>
+                    <div class="likert-option">
+                        <input type="radio" name="farmKnowledge" id="fk4" value="4">
+                        <label for="fk4"><span class="likert-circle">4</span>Good</label>
+                    </div>
+                    <div class="likert-option">
+                        <input type="radio" name="farmKnowledge" id="fk5" value="5">
+                        <label for="fk5"><span class="likert-circle">5</span>Expert</label>
+                    </div>
                 </div>
-
-                <div id="consentError" class="error-msg">Please check the consent box to proceed.</div>
-            </div>
-        </div>
-        <button class="btn btn-primary" onclick="goToSection('sec-demographics')">Continue</button>
-    </div>
-
-    <!-- ============ SECTION 2: DEMOGRAPHICS ============ -->
-    <div class="section" id="sec-demographics">
-        <div class="card">
-            <h2>Pre-Test: Demographic Information</h2>
-            <p>Please provide the following background information.</p>
-
-            <div style="margin-bottom:16px;">
-                <span class="pid-badge" id="pidDisplay"></span>
             </div>
 
-            <div class="form-group">
-                <label><span class="required">Age</span></label>
-                <input type="number" id="demo-age" min="16" max="99" placeholder="e.g. 22">
-                <div class="error-msg" id="err-age">Please enter a valid age (16-99).</div>
+            <div class="likert-group">
+                <div class="likert-question">Have you used learning apps before (Duolingo, Kahoot, etc.)? <span class="required">*</span></div>
+                <div class="likert-options">
+                    <div class="likert-option">
+                        <input type="radio" name="appExperience" id="ae1" value="1">
+                        <label for="ae1"><span class="likert-circle">1</span>Never</label>
+                    </div>
+                    <div class="likert-option">
+                        <input type="radio" name="appExperience" id="ae2" value="2">
+                        <label for="ae2"><span class="likert-circle">2</span>Once</label>
+                    </div>
+                    <div class="likert-option">
+                        <input type="radio" name="appExperience" id="ae3" value="3">
+                        <label for="ae3"><span class="likert-circle">3</span>A few</label>
+                    </div>
+                    <div class="likert-option">
+                        <input type="radio" name="appExperience" id="ae4" value="4">
+                        <label for="ae4"><span class="likert-circle">4</span>Often</label>
+                    </div>
+                    <div class="likert-option">
+                        <input type="radio" name="appExperience" id="ae5" value="5">
+                        <label for="ae5"><span class="likert-circle">5</span>Daily</label>
+                    </div>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label><span class="required">Gender</span></label>
-                <select id="demo-gender">
-                    <option value="">-- Select --</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="non-binary">Non-binary</option>
-                    <option value="prefer-not">Prefer not to say</option>
-                </select>
-                <div class="error-msg" id="err-gender">Please select your gender.</div>
-            </div>
-
-            <div class="form-group">
-                <label><span class="required">Study Program / Field of Study</span></label>
-                <input type="text" id="demo-program" placeholder="e.g. Agricultural Sciences, Computer Science">
-                <div class="error-msg" id="err-program">Please enter your study program.</div>
-            </div>
-
-            <div class="form-group">
-                <label><span class="required">Year of Study</span></label>
-                <select id="demo-year">
-                    <option value="">-- Select --</option>
-                    <option value="1">1st year (Freshman)</option>
-                    <option value="2">2nd year (Sophomore)</option>
-                    <option value="3">3rd year (Junior)</option>
-                    <option value="4">4th year (Senior)</option>
-                    <option value="5+">5th year or above</option>
-                    <option value="grad">Graduate student</option>
-                </select>
-                <div class="error-msg" id="err-year">Please select your year of study.</div>
-            </div>
-
-            <div class="form-group">
-                <label><span class="required">Prior Farming/Agriculture Knowledge</span></label>
-                <p style="font-size:13px; color:var(--gray-500); margin-bottom:10px;">Rate your existing knowledge about farming practices before using this app.</p>
-                <table class="likert-table">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>1<br><small>None</small></th>
-                            <th>2<br><small>Little</small></th>
-                            <th>3<br><small>Moderate</small></th>
-                            <th>4<br><small>Good</small></th>
-                            <th>5<br><small>Expert</small></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>My farming knowledge level</td>
-                            <td><input type="radio" name="prior-knowledge" value="1"></td>
-                            <td><input type="radio" name="prior-knowledge" value="2"></td>
-                            <td><input type="radio" name="prior-knowledge" value="3"></td>
-                            <td><input type="radio" name="prior-knowledge" value="4"></td>
-                            <td><input type="radio" name="prior-knowledge" value="5"></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="error-msg" id="err-knowledge">Please rate your prior knowledge.</div>
-            </div>
-
-            <div class="form-group">
-                <label><span class="required">Have you used educational apps/games before?</span></label>
-                <select id="demo-edapps">
-                    <option value="">-- Select --</option>
-                    <option value="never">Never</option>
-                    <option value="rarely">Rarely (1-2 times)</option>
-                    <option value="sometimes">Sometimes</option>
-                    <option value="often">Often</option>
-                    <option value="very-often">Very often (daily)</option>
-                </select>
-                <div class="error-msg" id="err-edapps">Please select an option.</div>
-            </div>
-        </div>
-        <div class="btn-row">
-            <button class="btn btn-secondary" onclick="goToSection('sec-intro')">Back</button>
-            <button class="btn btn-primary" onclick="goToSection('sec-app')">Continue</button>
+            <div class="error-msg" id="demoError">Please fill in all required fields.</div>
+            <button class="btn btn-green" onclick="goToStep(3)">NEXT</button>
         </div>
     </div>
 
-    <!-- ============ SECTION 3: APP USAGE ============ -->
-    <div class="section" id="sec-app">
+    <!-- ==================== STEP 3: USE THE APP ==================== -->
+    <div class="section" id="step3">
         <div class="card">
-            <h2>Use the FarmLearn App</h2>
-            <p>Now it is time to explore the FarmLearn application. Please spend approximately <strong>10-15 minutes</strong> using the app.</p>
-
-            <div class="app-instructions">
-                <h3>Instructions</h3>
-                <ol>
-                    <li>Click the button below to open FarmLearn in a new tab</li>
-                    <li>Choose at least <strong>2 different crop topics</strong> (e.g., Maize and Beans)</li>
-                    <li>Complete at least <strong>2 levels</strong> in each topic</li>
-                    <li>Pay attention to the questions and explanations -- there will be a quiz later</li>
-                    <li>When finished, return to this tab and click "Continue to Survey"</li>
-                </ol>
+            <div class="step-header">
+                <span class="step-number">3</span>
+                <h2>Try FarmLearn</h2>
             </div>
 
-            <a href="../farmlearn-en/index.html" target="_blank" class="app-link-btn">
-                Open FarmLearn App
+            <p style="font-size:19px;">Now open the <strong>FarmLearn</strong> app and play through as many levels as you can. You have about <strong>15 minutes</strong>.</p>
+
+            <p style="font-size:17px;">The app teaches farming knowledge through a fun quiz game with levels - like Duolingo, but for agriculture!</p>
+
+            <a href="../farmlearn-en/index.html" target="_blank" class="app-link" id="appLink" onclick="trackAppOpen()">
+                <span class="app-icon">🌱</span>
+                OPEN FARMLEARN APP
             </a>
 
-            <div class="timer-notice" id="timerNotice">
-                App opened at: <span id="appOpenTime">--</span> | Time spent: <span id="appTimeSpent">--</span>
+            <p style="font-size:15px; color:#6b7280; text-align:center;">The app opens in a new tab. Come back here when you're done.</p>
+
+            <div id="appTracker" style="display:none; background:#dcfce7; border-radius:12px; padding:16px; margin:16px 0; text-align:center;">
+                <p style="font-size:16px; color:#166534; margin:0;">App opened at <strong id="appOpenTime">--</strong></p>
             </div>
-        </div>
-        <div class="btn-row">
-            <button class="btn btn-secondary" onclick="goToSection('sec-demographics')">Back</button>
-            <button class="btn btn-primary" onclick="goToSection('sec-posttest')">Continue to Survey</button>
+
+            <div style="margin-top:20px;">
+                <button class="btn btn-green" onclick="goToStep(4)" id="continueAfterApp" disabled>
+                    I'M DONE WITH THE APP - CONTINUE
+                </button>
+                <p class="error-msg" id="appError" style="display:block; text-align:center; margin-top:8px;">Open the app first, then this button will activate after 2 minutes.</p>
+            </div>
         </div>
     </div>
 
-    <!-- ============ SECTION 4: POST-TEST SURVEY ============ -->
-    <div class="section" id="sec-posttest">
+    <!-- ==================== STEP 4: SURVEY ==================== -->
+    <div class="section" id="step4">
         <div class="card">
-            <h2>Post-Test Evaluation</h2>
-            <p>Please rate your experience with the FarmLearn application. Answer honestly -- there are no right or wrong answers.</p>
+            <div class="step-header">
+                <span class="step-number">4</span>
+                <h2>Your Feedback</h2>
+            </div>
+            <p>Now tell us what you think about FarmLearn. Answer honestly - there are no right or wrong answers.</p>
 
             <!-- SUS -->
-            <div class="scale-section-label">System Usability Scale (SUS)</div>
-            <div class="scale-description">Rate each statement from 1 (Strongly Disagree) to 5 (Strongly Agree).</div>
+            <div class="scale-header">Usability (how easy was it to use?)</div>
 
-            <table class="likert-table" id="sus-table">
-                <thead>
-                    <tr>
-                        <th>Statement</th>
-                        <th>1<br><small>Strongly Disagree</small></th>
-                        <th>2<br><small>Disagree</small></th>
-                        <th>3<br><small>Neutral</small></th>
-                        <th>4<br><small>Agree</small></th>
-                        <th>5<br><small>Strongly Agree</small></th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-            <div class="error-msg" id="err-sus">Please answer all SUS items.</div>
+            <div class="likert-group" data-scale="sus" data-item="1">
+                <div class="likert-question">1. I think I would like to use FarmLearn frequently.</div>
+                <div class="likert-options">
+                    <div class="likert-option"><input type="radio" name="sus1" id="sus1_1" value="1"><label for="sus1_1"><span class="likert-circle">1</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus1" id="sus1_2" value="2"><label for="sus1_2"><span class="likert-circle">2</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus1" id="sus1_3" value="3"><label for="sus1_3"><span class="likert-circle">3</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus1" id="sus1_4" value="4"><label for="sus1_4"><span class="likert-circle">4</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus1" id="sus1_5" value="5"><label for="sus1_5"><span class="likert-circle">5</span></label></div>
+                </div>
+                <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
 
-            <!-- TAM - PU -->
-            <h3>Perceived Usefulness</h3>
-            <div class="scale-section-label">Technology Acceptance Model (TAM)</div>
-            <div class="scale-description">Rate each statement from 1 (Strongly Disagree) to 5 (Strongly Agree).</div>
+            <div class="likert-group" data-scale="sus" data-item="2">
+                <div class="likert-question">2. I found FarmLearn unnecessarily complex.</div>
+                <div class="likert-options">
+                    <div class="likert-option"><input type="radio" name="sus2" id="sus2_1" value="1"><label for="sus2_1"><span class="likert-circle">1</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus2" id="sus2_2" value="2"><label for="sus2_2"><span class="likert-circle">2</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus2" id="sus2_3" value="3"><label for="sus2_3"><span class="likert-circle">3</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus2" id="sus2_4" value="4"><label for="sus2_4"><span class="likert-circle">4</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus2" id="sus2_5" value="5"><label for="sus2_5"><span class="likert-circle">5</span></label></div>
+                </div>
+                <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
 
-            <table class="likert-table" id="pu-table">
-                <thead>
-                    <tr>
-                        <th>Statement</th>
-                        <th>1<br><small>Strongly Disagree</small></th>
-                        <th>2<br><small>Disagree</small></th>
-                        <th>3<br><small>Neutral</small></th>
-                        <th>4<br><small>Agree</small></th>
-                        <th>5<br><small>Strongly Agree</small></th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-            <div class="error-msg" id="err-pu">Please answer all Perceived Usefulness items.</div>
+            <div class="likert-group" data-scale="sus" data-item="3">
+                <div class="likert-question">3. I thought FarmLearn was easy to use.</div>
+                <div class="likert-options">
+                    <div class="likert-option"><input type="radio" name="sus3" id="sus3_1" value="1"><label for="sus3_1"><span class="likert-circle">1</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus3" id="sus3_2" value="2"><label for="sus3_2"><span class="likert-circle">2</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus3" id="sus3_3" value="3"><label for="sus3_3"><span class="likert-circle">3</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus3" id="sus3_4" value="4"><label for="sus3_4"><span class="likert-circle">4</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus3" id="sus3_5" value="5"><label for="sus3_5"><span class="likert-circle">5</span></label></div>
+                </div>
+                <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
 
-            <!-- TAM - PEOU -->
-            <h3>Perceived Ease of Use</h3>
+            <div class="likert-group" data-scale="sus" data-item="4">
+                <div class="likert-question">4. I think I would need help from someone to use FarmLearn.</div>
+                <div class="likert-options">
+                    <div class="likert-option"><input type="radio" name="sus4" id="sus4_1" value="1"><label for="sus4_1"><span class="likert-circle">1</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus4" id="sus4_2" value="2"><label for="sus4_2"><span class="likert-circle">2</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus4" id="sus4_3" value="3"><label for="sus4_3"><span class="likert-circle">3</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus4" id="sus4_4" value="4"><label for="sus4_4"><span class="likert-circle">4</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus4" id="sus4_5" value="5"><label for="sus4_5"><span class="likert-circle">5</span></label></div>
+                </div>
+                <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
 
-            <table class="likert-table" id="peou-table">
-                <thead>
-                    <tr>
-                        <th>Statement</th>
-                        <th>1<br><small>Strongly Disagree</small></th>
-                        <th>2<br><small>Disagree</small></th>
-                        <th>3<br><small>Neutral</small></th>
-                        <th>4<br><small>Agree</small></th>
-                        <th>5<br><small>Strongly Agree</small></th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-            <div class="error-msg" id="err-peou">Please answer all Perceived Ease of Use items.</div>
+            <div class="likert-group" data-scale="sus" data-item="5">
+                <div class="likert-question">5. I found the various functions in FarmLearn were well integrated.</div>
+                <div class="likert-options">
+                    <div class="likert-option"><input type="radio" name="sus5" id="sus5_1" value="1"><label for="sus5_1"><span class="likert-circle">1</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus5" id="sus5_2" value="2"><label for="sus5_2"><span class="likert-circle">2</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus5" id="sus5_3" value="3"><label for="sus5_3"><span class="likert-circle">3</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus5" id="sus5_4" value="4"><label for="sus5_4"><span class="likert-circle">4</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus5" id="sus5_5" value="5"><label for="sus5_5"><span class="likert-circle">5</span></label></div>
+                </div>
+                <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="likert-group" data-scale="sus" data-item="6">
+                <div class="likert-question">6. I thought there was too much inconsistency in FarmLearn.</div>
+                <div class="likert-options">
+                    <div class="likert-option"><input type="radio" name="sus6" id="sus6_1" value="1"><label for="sus6_1"><span class="likert-circle">1</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus6" id="sus6_2" value="2"><label for="sus6_2"><span class="likert-circle">2</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus6" id="sus6_3" value="3"><label for="sus6_3"><span class="likert-circle">3</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus6" id="sus6_4" value="4"><label for="sus6_4"><span class="likert-circle">4</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus6" id="sus6_5" value="5"><label for="sus6_5"><span class="likert-circle">5</span></label></div>
+                </div>
+                <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="likert-group" data-scale="sus" data-item="7">
+                <div class="likert-question">7. I imagine most people would learn to use FarmLearn very quickly.</div>
+                <div class="likert-options">
+                    <div class="likert-option"><input type="radio" name="sus7" id="sus7_1" value="1"><label for="sus7_1"><span class="likert-circle">1</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus7" id="sus7_2" value="2"><label for="sus7_2"><span class="likert-circle">2</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus7" id="sus7_3" value="3"><label for="sus7_3"><span class="likert-circle">3</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus7" id="sus7_4" value="4"><label for="sus7_4"><span class="likert-circle">4</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus7" id="sus7_5" value="5"><label for="sus7_5"><span class="likert-circle">5</span></label></div>
+                </div>
+                <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="likert-group" data-scale="sus" data-item="8">
+                <div class="likert-question">8. I found FarmLearn very cumbersome to use.</div>
+                <div class="likert-options">
+                    <div class="likert-option"><input type="radio" name="sus8" id="sus8_1" value="1"><label for="sus8_1"><span class="likert-circle">1</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus8" id="sus8_2" value="2"><label for="sus8_2"><span class="likert-circle">2</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus8" id="sus8_3" value="3"><label for="sus8_3"><span class="likert-circle">3</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus8" id="sus8_4" value="4"><label for="sus8_4"><span class="likert-circle">4</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus8" id="sus8_5" value="5"><label for="sus8_5"><span class="likert-circle">5</span></label></div>
+                </div>
+                <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="likert-group" data-scale="sus" data-item="9">
+                <div class="likert-question">9. I felt very confident using FarmLearn.</div>
+                <div class="likert-options">
+                    <div class="likert-option"><input type="radio" name="sus9" id="sus9_1" value="1"><label for="sus9_1"><span class="likert-circle">1</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus9" id="sus9_2" value="2"><label for="sus9_2"><span class="likert-circle">2</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus9" id="sus9_3" value="3"><label for="sus9_3"><span class="likert-circle">3</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus9" id="sus9_4" value="4"><label for="sus9_4"><span class="likert-circle">4</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus9" id="sus9_5" value="5"><label for="sus9_5"><span class="likert-circle">5</span></label></div>
+                </div>
+                <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="likert-group" data-scale="sus" data-item="10">
+                <div class="likert-question">10. I needed to learn a lot of things before I could get going with FarmLearn.</div>
+                <div class="likert-options">
+                    <div class="likert-option"><input type="radio" name="sus10" id="sus10_1" value="1"><label for="sus10_1"><span class="likert-circle">1</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus10" id="sus10_2" value="2"><label for="sus10_2"><span class="likert-circle">2</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus10" id="sus10_3" value="3"><label for="sus10_3"><span class="likert-circle">3</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus10" id="sus10_4" value="4"><label for="sus10_4"><span class="likert-circle">4</span></label></div>
+                    <div class="likert-option"><input type="radio" name="sus10" id="sus10_5" value="5"><label for="sus10_5"><span class="likert-circle">5</span></label></div>
+                </div>
+                <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <!-- TAM - Perceived Usefulness -->
+            <div class="scale-header">Usefulness (is it helpful?)</div>
+
+            <div class="likert-group" data-scale="pu" data-item="1">
+                <div class="likert-question">1. FarmLearn would help farmers learn about crops more effectively.</div>
+                <div class="likert-options">
+                    <div class="likert-option"><input type="radio" name="pu1" id="pu1_1" value="1"><label for="pu1_1"><span class="likert-circle">1</span></label></div>
+                    <div class="likert-option"><input type="radio" name="pu1" id="pu1_2" value="2"><label for="pu1_2"><span class="likert-circle">2</span></label></div>
+                    <div class="likert-option"><input type="radio" name="pu1" id="pu1_3" value="3"><label for="pu1_3"><span class="likert-circle">3</span></label></div>
+                    <div class="likert-option"><input type="radio" name="pu1" id="pu1_4" value="4"><label for="pu1_4"><span class="likert-circle">4</span></label></div>
+                    <div class="likert-option"><input type="radio" name="pu1" id="pu1_5" value="5"><label for="pu1_5"><span class="likert-circle">5</span></label></div>
+                </div>
+                <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="likert-group" data-scale="pu" data-item="2">
+                <div class="likert-question">2. Using FarmLearn would make it easier to acquire farming knowledge.</div>
+                <div class="likert-options">
+                    <div class="likert-option"><input type="radio" name="pu2" id="pu2_1" value="1"><label for="pu2_1"><span class="likert-circle">1</span></label></div>
+                    <div class="likert-option"><input type="radio" name="pu2" id="pu2_2" value="2"><label for="pu2_2"><span class="likert-circle">2</span></label></div>
+                    <div class="likert-option"><input type="radio" name="pu2" id="pu2_3" value="3"><label for="pu2_3"><span class="likert-circle">3</span></label></div>
+                    <div class="likert-option"><input type="radio" name="pu2" id="pu2_4" value="4"><label for="pu2_4"><span class="likert-circle">4</span></label></div>
+                    <div class="likert-option"><input type="radio" name="pu2" id="pu2_5" value="5"><label for="pu2_5"><span class="likert-circle">5</span></label></div>
+                </div>
+                <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="likert-group" data-scale="pu" data-item="3">
+                <div class="likert-question">3. The content in FarmLearn is relevant and useful for farming.</div>
+                <div class="likert-options">
+                    <div class="likert-option"><input type="radio" name="pu3" id="pu3_1" value="1"><label for="pu3_1"><span class="likert-circle">1</span></label></div>
+                    <div class="likert-option"><input type="radio" name="pu3" id="pu3_2" value="2"><label for="pu3_2"><span class="likert-circle">2</span></label></div>
+                    <div class="likert-option"><input type="radio" name="pu3" id="pu3_3" value="3"><label for="pu3_3"><span class="likert-circle">3</span></label></div>
+                    <div class="likert-option"><input type="radio" name="pu3" id="pu3_4" value="4"><label for="pu3_4"><span class="likert-circle">4</span></label></div>
+                    <div class="likert-option"><input type="radio" name="pu3" id="pu3_5" value="5"><label for="pu3_5"><span class="likert-circle">5</span></label></div>
+                </div>
+                <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="likert-group" data-scale="pu" data-item="4">
+                <div class="likert-question">4. Overall, I find FarmLearn useful as a learning tool.</div>
+                <div class="likert-options">
+                    <div class="likert-option"><input type="radio" name="pu4" id="pu4_1" value="1"><label for="pu4_1"><span class="likert-circle">1</span></label></div>
+                    <div class="likert-option"><input type="radio" name="pu4" id="pu4_2" value="2"><label for="pu4_2"><span class="likert-circle">2</span></label></div>
+                    <div class="likert-option"><input type="radio" name="pu4" id="pu4_3" value="3"><label for="pu4_3"><span class="likert-circle">3</span></label></div>
+                    <div class="likert-option"><input type="radio" name="pu4" id="pu4_4" value="4"><label for="pu4_4"><span class="likert-circle">4</span></label></div>
+                    <div class="likert-option"><input type="radio" name="pu4" id="pu4_5" value="5"><label for="pu4_5"><span class="likert-circle">5</span></label></div>
+                </div>
+                <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <!-- TAM - Perceived Ease of Use -->
+            <div class="scale-header">Ease of Use (how simple was it?)</div>
+
+            <div class="likert-group" data-scale="peou" data-item="1">
+                <div class="likert-question">1. Learning to use FarmLearn was easy for me.</div>
+                <div class="likert-options">
+                    <div class="likert-option"><input type="radio" name="peou1" id="peou1_1" value="1"><label for="peou1_1"><span class="likert-circle">1</span></label></div>
+                    <div class="likert-option"><input type="radio" name="peou1" id="peou1_2" value="2"><label for="peou1_2"><span class="likert-circle">2</span></label></div>
+                    <div class="likert-option"><input type="radio" name="peou1" id="peou1_3" value="3"><label for="peou1_3"><span class="likert-circle">3</span></label></div>
+                    <div class="likert-option"><input type="radio" name="peou1" id="peou1_4" value="4"><label for="peou1_4"><span class="likert-circle">4</span></label></div>
+                    <div class="likert-option"><input type="radio" name="peou1" id="peou1_5" value="5"><label for="peou1_5"><span class="likert-circle">5</span></label></div>
+                </div>
+                <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="likert-group" data-scale="peou" data-item="2">
+                <div class="likert-question">2. I find it easy to navigate through FarmLearn.</div>
+                <div class="likert-options">
+                    <div class="likert-option"><input type="radio" name="peou2" id="peou2_1" value="1"><label for="peou2_1"><span class="likert-circle">1</span></label></div>
+                    <div class="likert-option"><input type="radio" name="peou2" id="peou2_2" value="2"><label for="peou2_2"><span class="likert-circle">2</span></label></div>
+                    <div class="likert-option"><input type="radio" name="peou2" id="peou2_3" value="3"><label for="peou2_3"><span class="likert-circle">3</span></label></div>
+                    <div class="likert-option"><input type="radio" name="peou2" id="peou2_4" value="4"><label for="peou2_4"><span class="likert-circle">4</span></label></div>
+                    <div class="likert-option"><input type="radio" name="peou2" id="peou2_5" value="5"><label for="peou2_5"><span class="likert-circle">5</span></label></div>
+                </div>
+                <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="likert-group" data-scale="peou" data-item="3">
+                <div class="likert-question">3. The interface of FarmLearn is clear and understandable.</div>
+                <div class="likert-options">
+                    <div class="likert-option"><input type="radio" name="peou3" id="peou3_1" value="1"><label for="peou3_1"><span class="likert-circle">1</span></label></div>
+                    <div class="likert-option"><input type="radio" name="peou3" id="peou3_2" value="2"><label for="peou3_2"><span class="likert-circle">2</span></label></div>
+                    <div class="likert-option"><input type="radio" name="peou3" id="peou3_3" value="3"><label for="peou3_3"><span class="likert-circle">3</span></label></div>
+                    <div class="likert-option"><input type="radio" name="peou3" id="peou3_4" value="4"><label for="peou3_4"><span class="likert-circle">4</span></label></div>
+                    <div class="likert-option"><input type="radio" name="peou3" id="peou3_5" value="5"><label for="peou3_5"><span class="likert-circle">5</span></label></div>
+                </div>
+                <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="likert-group" data-scale="peou" data-item="4">
+                <div class="likert-question">4. Overall, I find FarmLearn easy to use.</div>
+                <div class="likert-options">
+                    <div class="likert-option"><input type="radio" name="peou4" id="peou4_1" value="1"><label for="peou4_1"><span class="likert-circle">1</span></label></div>
+                    <div class="likert-option"><input type="radio" name="peou4" id="peou4_2" value="2"><label for="peou4_2"><span class="likert-circle">2</span></label></div>
+                    <div class="likert-option"><input type="radio" name="peou4" id="peou4_3" value="3"><label for="peou4_3"><span class="likert-circle">3</span></label></div>
+                    <div class="likert-option"><input type="radio" name="peou4" id="peou4_4" value="4"><label for="peou4_4"><span class="likert-circle">4</span></label></div>
+                    <div class="likert-option"><input type="radio" name="peou4" id="peou4_5" value="5"><label for="peou4_5"><span class="likert-circle">5</span></label></div>
+                </div>
+                <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
 
             <!-- Engagement -->
-            <h3>Engagement &amp; Gamification</h3>
-            <div class="scale-section-label">Engagement Scale</div>
-            <div class="scale-description">Rate each statement from 1 (Strongly Disagree) to 5 (Strongly Agree).</div>
+            <div class="scale-header">Engagement (how engaging was it?)</div>
 
-            <table class="likert-table" id="engage-table">
-                <thead>
-                    <tr>
-                        <th>Statement</th>
-                        <th>1<br><small>Strongly Disagree</small></th>
-                        <th>2<br><small>Disagree</small></th>
-                        <th>3<br><small>Neutral</small></th>
-                        <th>4<br><small>Agree</small></th>
-                        <th>5<br><small>Strongly Agree</small></th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-            <div class="error-msg" id="err-engage">Please answer all Engagement items.</div>
+            <div class="likert-group" data-scale="eng" data-item="1">
+                <div class="likert-question">1. The game-like elements (levels, progress) motivated me to continue.</div>
+                <div class="likert-options">
+                    <div class="likert-option"><input type="radio" name="eng1" id="eng1_1" value="1"><label for="eng1_1"><span class="likert-circle">1</span></label></div>
+                    <div class="likert-option"><input type="radio" name="eng1" id="eng1_2" value="2"><label for="eng1_2"><span class="likert-circle">2</span></label></div>
+                    <div class="likert-option"><input type="radio" name="eng1" id="eng1_3" value="3"><label for="eng1_3"><span class="likert-circle">3</span></label></div>
+                    <div class="likert-option"><input type="radio" name="eng1" id="eng1_4" value="4"><label for="eng1_4"><span class="likert-circle">4</span></label></div>
+                    <div class="likert-option"><input type="radio" name="eng1" id="eng1_5" value="5"><label for="eng1_5"><span class="likert-circle">5</span></label></div>
+                </div>
+                <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="likert-group" data-scale="eng" data-item="2">
+                <div class="likert-question">2. The immediate feedback helped me learn.</div>
+                <div class="likert-options">
+                    <div class="likert-option"><input type="radio" name="eng2" id="eng2_1" value="1"><label for="eng2_1"><span class="likert-circle">1</span></label></div>
+                    <div class="likert-option"><input type="radio" name="eng2" id="eng2_2" value="2"><label for="eng2_2"><span class="likert-circle">2</span></label></div>
+                    <div class="likert-option"><input type="radio" name="eng2" id="eng2_3" value="3"><label for="eng2_3"><span class="likert-circle">3</span></label></div>
+                    <div class="likert-option"><input type="radio" name="eng2" id="eng2_4" value="4"><label for="eng2_4"><span class="likert-circle">4</span></label></div>
+                    <div class="likert-option"><input type="radio" name="eng2" id="eng2_5" value="5"><label for="eng2_5"><span class="likert-circle">5</span></label></div>
+                </div>
+                <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="likert-group" data-scale="eng" data-item="3">
+                <div class="likert-question">3. The time limit added positive pressure.</div>
+                <div class="likert-options">
+                    <div class="likert-option"><input type="radio" name="eng3" id="eng3_1" value="1"><label for="eng3_1"><span class="likert-circle">1</span></label></div>
+                    <div class="likert-option"><input type="radio" name="eng3" id="eng3_2" value="2"><label for="eng3_2"><span class="likert-circle">2</span></label></div>
+                    <div class="likert-option"><input type="radio" name="eng3" id="eng3_3" value="3"><label for="eng3_3"><span class="likert-circle">3</span></label></div>
+                    <div class="likert-option"><input type="radio" name="eng3" id="eng3_4" value="4"><label for="eng3_4"><span class="likert-circle">4</span></label></div>
+                    <div class="likert-option"><input type="radio" name="eng3" id="eng3_5" value="5"><label for="eng3_5"><span class="likert-circle">5</span></label></div>
+                </div>
+                <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="likert-group" data-scale="eng" data-item="4">
+                <div class="likert-question">4. I would recommend this app to farmers.</div>
+                <div class="likert-options">
+                    <div class="likert-option"><input type="radio" name="eng4" id="eng4_1" value="1"><label for="eng4_1"><span class="likert-circle">1</span></label></div>
+                    <div class="likert-option"><input type="radio" name="eng4" id="eng4_2" value="2"><label for="eng4_2"><span class="likert-circle">2</span></label></div>
+                    <div class="likert-option"><input type="radio" name="eng4" id="eng4_3" value="3"><label for="eng4_3"><span class="likert-circle">3</span></label></div>
+                    <div class="likert-option"><input type="radio" name="eng4" id="eng4_4" value="4"><label for="eng4_4"><span class="likert-circle">4</span></label></div>
+                    <div class="likert-option"><input type="radio" name="eng4" id="eng4_5" value="5"><label for="eng4_5"><span class="likert-circle">5</span></label></div>
+                </div>
+                <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="likert-group" data-scale="eng" data-item="5">
+                <div class="likert-question">5. I learned new farming knowledge from this app.</div>
+                <div class="likert-options">
+                    <div class="likert-option"><input type="radio" name="eng5" id="eng5_1" value="1"><label for="eng5_1"><span class="likert-circle">1</span></label></div>
+                    <div class="likert-option"><input type="radio" name="eng5" id="eng5_2" value="2"><label for="eng5_2"><span class="likert-circle">2</span></label></div>
+                    <div class="likert-option"><input type="radio" name="eng5" id="eng5_3" value="3"><label for="eng5_3"><span class="likert-circle">3</span></label></div>
+                    <div class="likert-option"><input type="radio" name="eng5" id="eng5_4" value="4"><label for="eng5_4"><span class="likert-circle">4</span></label></div>
+                    <div class="likert-option"><input type="radio" name="eng5" id="eng5_5" value="5"><label for="eng5_5"><span class="likert-circle">5</span></label></div>
+                </div>
+                <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
 
             <!-- Open-ended -->
-            <h3>Open-Ended Feedback</h3>
+            <div class="scale-header">Your Thoughts</div>
 
-            <div class="form-group">
-                <label>What did you like most about FarmLearn?</label>
-                <textarea id="open-like" placeholder="Your answer..."></textarea>
+            <label for="openLike">What did you like most about FarmLearn?</label>
+            <textarea id="openLike" placeholder="Write your answer here..."></textarea>
+
+            <label for="openImprove">What would you improve?</label>
+            <textarea id="openImprove" placeholder="Write your answer here..."></textarea>
+
+            <div class="error-msg" id="surveyError">Please answer all questions before submitting.</div>
+
+            <button class="btn btn-green" onclick="submitSurvey()" style="margin-top:16px;">SUBMIT</button>
+        </div>
+    </div>
+
+    <!-- ==================== THANK YOU ==================== -->
+    <div class="section" id="stepDone">
+        <div class="card thank-you">
+            <div class="icon">🎉</div>
+            <h2>Thank You!</h2>
+            <p>Your responses have been saved successfully.</p>
+            <div class="pid-box">
+                Your Participant ID: <span id="finalPid">--</span>
             </div>
-
-            <div class="form-group">
-                <label>What would you improve about FarmLearn?</label>
-                <textarea id="open-improve" placeholder="Your answer..."></textarea>
-            </div>
-        </div>
-        <div class="btn-row">
-            <button class="btn btn-secondary" onclick="goToSection('sec-app')">Back</button>
-            <button class="btn btn-primary" onclick="goToSection('sec-knowledge')">Continue to Quiz</button>
+            <p style="margin-top:16px;">You can close this page now.</p>
         </div>
     </div>
-
-    <!-- ============ SECTION 5: KNOWLEDGE TEST ============ -->
-    <div class="section" id="sec-knowledge">
-        <div class="card">
-            <h2>Knowledge Retention Test</h2>
-            <p>Answer the following questions based on what you learned from using FarmLearn. Select the best answer for each question.</p>
-
-            <div id="knowledgeQuizContainer"></div>
-            <div class="error-msg" id="err-quiz">Please answer all quiz questions.</div>
-        </div>
-        <div class="btn-row">
-            <button class="btn btn-secondary" onclick="goToSection('sec-posttest')">Back</button>
-            <button class="btn btn-primary" onclick="submitStudy()">Submit All Responses</button>
-        </div>
-    </div>
-
-    <!-- ============ SECTION 6: COMPLETION ============ -->
-    <div class="section" id="sec-complete">
-        <div class="card" style="text-align:center;">
-            <div class="completion-icon">&#10003;</div>
-            <h2 style="justify-content:center;">Thank You!</h2>
-            <p class="completion-msg">Your responses have been recorded successfully.</p>
-            <p style="margin-top:16px;">Participant ID: <span class="pid-badge" id="pidFinal"></span></p>
-            <p style="margin-top:12px; font-size:14px; color:var(--gray-500);">
-                You may now close this window. Your data is stored locally and can be exported by the researcher from the <a href="results.html" style="color:var(--green-600);">Results Dashboard</a>.
-            </p>
-        </div>
-    </div>
-
 </div>
 
 <script>
-// ===== CONFIGURATION =====
-const SECTIONS = ['sec-intro', 'sec-demographics', 'sec-app', 'sec-posttest', 'sec-knowledge', 'sec-complete'];
-const STORAGE_KEY = 'farmlearn_study_responses';
+    // State
+    let currentStep = 1;
+    const totalSteps = 4;
+    let participantId = '';
+    let appOpenedAt = null;
+    let surveyStartTime = Date.now();
 
-// ===== SUS ITEMS (Standard Brooke 1996) =====
-const SUS_ITEMS = [
-    "I think that I would like to use FarmLearn frequently.",
-    "I found FarmLearn unnecessarily complex.",
-    "I thought FarmLearn was easy to use.",
-    "I think that I would need the support of a technical person to be able to use FarmLearn.",
-    "I found the various functions in FarmLearn were well integrated.",
-    "I thought there was too much inconsistency in FarmLearn.",
-    "I would imagine that most people would learn to use FarmLearn very quickly.",
-    "I found FarmLearn very cumbersome to use.",
-    "I felt very confident using FarmLearn.",
-    "I needed to learn a lot of things before I could get going with FarmLearn."
-];
-
-// ===== TAM - Perceived Usefulness (Davis 1989 adapted) =====
-const PU_ITEMS = [
-    "Using FarmLearn improved my understanding of farming practices.",
-    "FarmLearn made it easier to learn about agriculture compared to reading a textbook.",
-    "I find FarmLearn useful for acquiring agricultural knowledge.",
-    "Using FarmLearn increased my interest in learning about farming."
-];
-
-// ===== TAM - Perceived Ease of Use (Davis 1989 adapted) =====
-const PEOU_ITEMS = [
-    "Learning to operate FarmLearn was easy for me.",
-    "I found it easy to get FarmLearn to do what I wanted it to do.",
-    "The interface of FarmLearn was clear and understandable.",
-    "Overall, I found FarmLearn easy to use."
-];
-
-// ===== Engagement & Gamification =====
-const ENGAGE_ITEMS = [
-    "The game-like elements (levels, progress) motivated me to continue.",
-    "The immediate feedback helped me learn.",
-    "The time limit added positive pressure to the experience.",
-    "I would recommend this app to people interested in farming.",
-    "I learned new farming knowledge from this app."
-];
-
-// ===== Knowledge Quiz (rephrased from actual FarmLearn content) =====
-const KNOWLEDGE_QUIZ = [
-    {
-        question: "Which type of soil is most suitable for growing maize?",
-        options: [
-            "Waterlogged clay soil",
-            "Well-drained fertile soil",
-            "Dry sandy desert soil",
-            "Rocky mountain soil"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is the primary benefit of crop rotation in farming?",
-        options: [
-            "It makes harvesting faster",
-            "It increases the number of pests",
-            "It helps reduce diseases and improve soil health",
-            "It eliminates the need for water"
-        ],
-        correct: 2
-    },
-    {
-        question: "Why are legume crops like beans valuable in agriculture?",
-        options: [
-            "They remove all nutrients from the soil",
-            "They require no sunlight to grow",
-            "They add nitrogen to the soil through root bacteria",
-            "They grow only in waterlogged conditions"
-        ],
-        correct: 2
-    },
-    {
-        question: "What farming practice helps conserve soil moisture during dry periods?",
-        options: [
-            "Removing all ground cover",
-            "Watering only at noon",
-            "Applying mulch (dry leaves, grass) on the soil",
-            "Planting crops closer than 1 cm apart"
-        ],
-        correct: 2
-    },
-    {
-        question: "To what moisture level should harvested grain (e.g., maize) be dried for safe storage?",
-        options: [
-            "Below 13-14%",
-            "Above 50%",
-            "Exactly 0%",
-            "Moisture level does not matter"
-        ],
-        correct: 0
+    // Generate participant ID
+    function genId() {
+        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        let id = 'FL-';
+        for (let i = 0; i < 8; i++) id += chars[Math.floor(Math.random() * chars.length)];
+        return id;
     }
-];
+    participantId = genId();
 
-// ===== PARTICIPANT ID =====
-function generatePID() {
-    const ts = Date.now().toString(36).toUpperCase();
-    const rand = Math.random().toString(36).substring(2, 6).toUpperCase();
-    return 'FL-' + ts.slice(-4) + rand;
-}
-
-let participantId = generatePID();
-let appOpenTimestamp = null;
-let appTimeInterval = null;
-
-// ===== INITIALIZE =====
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('pidDisplay').textContent = 'ID: ' + participantId;
-    buildLikertTable('sus-table', SUS_ITEMS, 'sus');
-    buildLikertTable('pu-table', PU_ITEMS, 'pu');
-    buildLikertTable('peou-table', PEOU_ITEMS, 'peou');
-    buildLikertTable('engage-table', ENGAGE_ITEMS, 'engage');
-    buildKnowledgeQuiz();
-    updateProgress();
-});
-
-// ===== BUILD LIKERT TABLE =====
-function buildLikertTable(tableId, items, prefix) {
-    const tbody = document.querySelector('#' + tableId + ' tbody');
-    items.forEach(function(item, i) {
-        const tr = document.createElement('tr');
-        let cells = '<td><span class="likert-item-num">' + (i+1) + '.</span> ' + item + '</td>';
-        for (let v = 1; v <= 5; v++) {
-            cells += '<td><input type="radio" name="' + prefix + '_' + i + '" value="' + v + '"></td>';
-        }
-        tr.innerHTML = cells;
-        tbody.appendChild(tr);
-    });
-}
-
-// ===== BUILD KNOWLEDGE QUIZ =====
-function buildKnowledgeQuiz() {
-    const container = document.getElementById('knowledgeQuizContainer');
-    KNOWLEDGE_QUIZ.forEach(function(q, qi) {
-        const div = document.createElement('div');
-        div.className = 'quiz-question';
-        let html = '<p>' + (qi+1) + '. ' + q.question + '</p>';
-        q.options.forEach(function(opt, oi) {
-            const id = 'kq_' + qi + '_' + oi;
-            html += '<div class="quiz-option">';
-            html += '<input type="radio" name="kq_' + qi + '" value="' + oi + '" id="' + id + '">';
-            html += '<label for="' + id + '">' + opt + '</label>';
-            html += '</div>';
-        });
-        div.innerHTML = html;
-        container.appendChild(div);
-    });
-}
-
-// ===== PROGRESS =====
-function updateProgress() {
-    const currentIdx = SECTIONS.indexOf(getCurrentSection());
-    const pct = Math.round((currentIdx / (SECTIONS.length - 1)) * 100);
-    document.getElementById('progressBar').style.width = pct + '%';
-    document.getElementById('progressLabel').textContent = 'Step ' + (currentIdx + 1) + ' of ' + SECTIONS.length;
-}
-
-function getCurrentSection() {
-    for (let s of SECTIONS) {
-        if (document.getElementById(s).classList.contains('active')) return s;
-    }
-    return SECTIONS[0];
-}
-
-// ===== NAVIGATION =====
-function goToSection(targetId) {
-    const currentId = getCurrentSection();
-
-    // Validation before moving forward
-    const currentIdx = SECTIONS.indexOf(currentId);
-    const targetIdx = SECTIONS.indexOf(targetId);
-
-    if (targetIdx > currentIdx) {
-        if (!validateSection(currentId)) return;
+    // Update UI
+    function updateProgress() {
+        const pct = ((currentStep - 1) / totalSteps) * 100;
+        document.getElementById('progressFill').style.width = pct + '%';
+        document.getElementById('stepLabel').textContent = 'Step ' + currentStep + ' of ' + totalSteps;
     }
 
-    // Special: track app open time
-    if (targetId === 'sec-app' && !appOpenTimestamp) {
-        // will be set when they click the link
+    function showStep(n) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        const stepId = n > totalSteps ? 'stepDone' : 'step' + n;
+        document.getElementById(stepId).classList.add('active');
+        window.scrollTo(0, 0);
+        updateProgress();
     }
 
-    // Hide all, show target
-    SECTIONS.forEach(function(s) {
-        document.getElementById(s).classList.remove('active');
-    });
-    document.getElementById(targetId).classList.add('active');
-    window.scrollTo(0, 0);
-    updateProgress();
-
-    // Track app usage time
-    if (targetId === 'sec-app') {
-        setupAppTimer();
-    }
-}
-
-// ===== APP TIMER =====
-function setupAppTimer() {
-    const link = document.querySelector('.app-link-btn');
-    link.addEventListener('click', function() {
-        if (!appOpenTimestamp) {
-            appOpenTimestamp = new Date();
-            document.getElementById('appOpenTime').textContent = appOpenTimestamp.toLocaleTimeString();
-            appTimeInterval = setInterval(updateAppTime, 1000);
-        }
-    });
-}
-
-function updateAppTime() {
-    if (!appOpenTimestamp) return;
-    const elapsed = Math.floor((Date.now() - appOpenTimestamp.getTime()) / 1000);
-    const mins = Math.floor(elapsed / 60);
-    const secs = elapsed % 60;
-    document.getElementById('appTimeSpent').textContent = mins + 'm ' + secs + 's';
-}
-
-// ===== VALIDATION =====
-function validateSection(sectionId) {
-    let valid = true;
-
-    if (sectionId === 'sec-intro') {
-        if (!document.getElementById('consentCheck').checked) {
-            document.getElementById('consentError').classList.add('show');
-            valid = false;
-        } else {
-            document.getElementById('consentError').classList.remove('show');
-        }
-    }
-
-    if (sectionId === 'sec-demographics') {
-        // Age
-        const age = parseInt(document.getElementById('demo-age').value);
-        if (!age || age < 16 || age > 99) {
-            showFieldError('demo-age', 'err-age');
-            valid = false;
-        } else {
-            hideFieldError('demo-age', 'err-age');
+    // Navigation
+    function goToStep(n) {
+        // Validate current step
+        if (currentStep === 1) {
+            if (!document.getElementById('consentCheck').checked) {
+                document.getElementById('consentError').style.display = 'block';
+                return;
+            }
+            document.getElementById('consentError').style.display = 'none';
         }
 
-        // Gender
-        if (!document.getElementById('demo-gender').value) {
-            showFieldError('demo-gender', 'err-gender');
-            valid = false;
-        } else {
-            hideFieldError('demo-gender', 'err-gender');
+        if (currentStep === 2) {
+            const age = document.getElementById('age').value;
+            const gender = document.getElementById('gender').value;
+            const program = document.getElementById('program').value.trim();
+            const year = document.getElementById('yearOfStudy').value;
+            const fk = document.querySelector('input[name="farmKnowledge"]:checked');
+            const ae = document.querySelector('input[name="appExperience"]:checked');
+
+            if (!age || !gender || !program || !year || !fk || !ae) {
+                document.getElementById('demoError').style.display = 'block';
+                return;
+            }
+            document.getElementById('demoError').style.display = 'none';
         }
 
-        // Program
-        if (!document.getElementById('demo-program').value.trim()) {
-            showFieldError('demo-program', 'err-program');
-            valid = false;
-        } else {
-            hideFieldError('demo-program', 'err-program');
-        }
-
-        // Year
-        if (!document.getElementById('demo-year').value) {
-            showFieldError('demo-year', 'err-year');
-            valid = false;
-        } else {
-            hideFieldError('demo-year', 'err-year');
-        }
-
-        // Prior knowledge
-        if (!document.querySelector('input[name="prior-knowledge"]:checked')) {
-            document.getElementById('err-knowledge').classList.add('show');
-            valid = false;
-        } else {
-            document.getElementById('err-knowledge').classList.remove('show');
-        }
-
-        // Ed apps
-        if (!document.getElementById('demo-edapps').value) {
-            showFieldError('demo-edapps', 'err-edapps');
-            valid = false;
-        } else {
-            hideFieldError('demo-edapps', 'err-edapps');
-        }
-    }
-
-    if (sectionId === 'sec-posttest') {
-        // SUS
-        if (!validateLikert('sus', SUS_ITEMS.length)) {
-            document.getElementById('err-sus').classList.add('show');
-            valid = false;
-        } else {
-            document.getElementById('err-sus').classList.remove('show');
-        }
-
-        // PU
-        if (!validateLikert('pu', PU_ITEMS.length)) {
-            document.getElementById('err-pu').classList.add('show');
-            valid = false;
-        } else {
-            document.getElementById('err-pu').classList.remove('show');
-        }
-
-        // PEOU
-        if (!validateLikert('peou', PEOU_ITEMS.length)) {
-            document.getElementById('err-peou').classList.add('show');
-            valid = false;
-        } else {
-            document.getElementById('err-peou').classList.remove('show');
-        }
-
-        // Engagement
-        if (!validateLikert('engage', ENGAGE_ITEMS.length)) {
-            document.getElementById('err-engage').classList.add('show');
-            valid = false;
-        } else {
-            document.getElementById('err-engage').classList.remove('show');
-        }
-    }
-
-    if (sectionId === 'sec-knowledge') {
-        let allAnswered = true;
-        for (let i = 0; i < KNOWLEDGE_QUIZ.length; i++) {
-            if (!document.querySelector('input[name="kq_' + i + '"]:checked')) {
-                allAnswered = false;
-                break;
+        if (currentStep === 3) {
+            if (!appOpenedAt) {
+                document.getElementById('appError').textContent = 'Please open the app first!';
+                document.getElementById('appError').style.display = 'block';
+                return;
             }
         }
+
+        currentStep = n;
+        showStep(n);
+    }
+
+    // Track app open
+    function trackAppOpen() {
+        appOpenedAt = new Date();
+        document.getElementById('appTracker').style.display = 'block';
+        document.getElementById('appOpenTime').textContent = appOpenedAt.toLocaleTimeString();
+
+        // Enable continue button after 2 minutes
+        setTimeout(() => {
+            document.getElementById('continueAfterApp').disabled = false;
+            document.getElementById('appError').style.display = 'none';
+        }, 120000);
+
+        // Also allow after 30 seconds for testing
+        setTimeout(() => {
+            document.getElementById('continueAfterApp').disabled = false;
+            document.getElementById('appError').textContent = 'Take your time with the app. Click when ready.';
+        }, 30000);
+    }
+
+    // Submit survey
+    function submitSurvey() {
+        // Validate all likert items
+        const scales = ['sus1','sus2','sus3','sus4','sus5','sus6','sus7','sus8','sus9','sus10',
+                        'pu1','pu2','pu3','pu4','peou1','peou2','peou3','peou4',
+                        'eng1','eng2','eng3','eng4','eng5'];
+        let allAnswered = true;
+        for (const name of scales) {
+            if (!document.querySelector(`input[name="${name}"]:checked`)) {
+                allAnswered = false;
+                // Highlight unanswered
+                const group = document.querySelector(`input[name="${name}"]`).closest('.likert-group');
+                group.style.border = '2px solid #ef4444';
+                group.style.borderRadius = '12px';
+            } else {
+                const group = document.querySelector(`input[name="${name}"]`).closest('.likert-group');
+                group.style.border = 'none';
+            }
+        }
+
         if (!allAnswered) {
-            document.getElementById('err-quiz').classList.add('show');
-            valid = false;
-        } else {
-            document.getElementById('err-quiz').classList.remove('show');
+            document.getElementById('surveyError').style.display = 'block';
+            // Scroll to first unanswered
+            const first = document.querySelector('.likert-group[style*="border: 2px solid"]');
+            if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
         }
-    }
+        document.getElementById('surveyError').style.display = 'none';
 
-    return valid;
-}
+        // Collect data
+        const data = {
+            participantId: participantId,
+            timestamp: new Date().toISOString(),
+            surveyDurationSec: Math.round((Date.now() - surveyStartTime) / 1000),
+            appOpenedAt: appOpenedAt ? appOpenedAt.toISOString() : null,
+            appDurationMin: appOpenedAt ? Math.round((Date.now() - appOpenedAt.getTime()) / 60000) : null,
 
-function validateLikert(prefix, count) {
-    for (let i = 0; i < count; i++) {
-        if (!document.querySelector('input[name="' + prefix + '_' + i + '"]:checked')) return false;
-    }
-    return true;
-}
+            // Demographics
+            demographics: {
+                age: parseInt(document.getElementById('age').value),
+                gender: document.getElementById('gender').value,
+                program: document.getElementById('program').value.trim(),
+                yearOfStudy: document.getElementById('yearOfStudy').value,
+                farmKnowledge: parseInt(document.querySelector('input[name="farmKnowledge"]:checked').value),
+                appExperience: parseInt(document.querySelector('input[name="appExperience"]:checked').value)
+            },
 
-function showFieldError(fieldId, errId) {
-    document.getElementById(fieldId).classList.add('field-error');
-    document.getElementById(errId).classList.add('show');
-}
+            // SUS
+            sus: {},
+            // TAM
+            pu: {},
+            peou: {},
+            // Engagement
+            engagement: {},
+            // Open-ended
+            openLike: document.getElementById('openLike').value.trim(),
+            openImprove: document.getElementById('openImprove').value.trim()
+        };
 
-function hideFieldError(fieldId, errId) {
-    document.getElementById(fieldId).classList.remove('field-error');
-    document.getElementById(errId).classList.remove('show');
-}
-
-// ===== COLLECT DATA =====
-function collectAllData() {
-    const data = {};
-
-    // Metadata
-    data.participantId = participantId;
-    data.timestamp = new Date().toISOString();
-    data.appOpenTime = appOpenTimestamp ? appOpenTimestamp.toISOString() : null;
-    data.appDurationSeconds = appOpenTimestamp ? Math.floor((Date.now() - appOpenTimestamp.getTime()) / 1000) : null;
-
-    // Demographics
-    data.age = parseInt(document.getElementById('demo-age').value);
-    data.gender = document.getElementById('demo-gender').value;
-    data.studyProgram = document.getElementById('demo-program').value.trim();
-    data.yearOfStudy = document.getElementById('demo-year').value;
-    data.priorKnowledge = parseInt(document.querySelector('input[name="prior-knowledge"]:checked').value);
-    data.priorEdApps = document.getElementById('demo-edapps').value;
-
-    // SUS
-    data.sus = [];
-    for (let i = 0; i < SUS_ITEMS.length; i++) {
-        data.sus.push(parseInt(document.querySelector('input[name="sus_' + i + '"]:checked').value));
-    }
-
-    // SUS score calculation (Brooke formula)
-    let susRaw = 0;
-    for (let i = 0; i < 10; i++) {
-        if (i % 2 === 0) {
-            susRaw += (data.sus[i] - 1); // odd items (1-indexed): score - 1
-        } else {
-            susRaw += (5 - data.sus[i]); // even items (1-indexed): 5 - score
+        // Collect scale values
+        for (let i = 1; i <= 10; i++) {
+            data.sus['sus' + i] = parseInt(document.querySelector(`input[name="sus${i}"]:checked`).value);
         }
+        for (let i = 1; i <= 4; i++) {
+            data.pu['pu' + i] = parseInt(document.querySelector(`input[name="pu${i}"]:checked`).value);
+            data.peou['peou' + i] = parseInt(document.querySelector(`input[name="peou${i}"]:checked`).value);
+        }
+        for (let i = 1; i <= 5; i++) {
+            data.engagement['eng' + i] = parseInt(document.querySelector(`input[name="eng${i}"]:checked`).value);
+        }
+
+        // Calculate SUS score
+        let susSum = 0;
+        for (let i = 1; i <= 10; i++) {
+            const val = data.sus['sus' + i];
+            if (i % 2 === 1) susSum += (val - 1);      // odd items: score - 1
+            else susSum += (5 - val);                     // even items: 5 - score
+        }
+        data.susScore = susSum * 2.5;
+
+        // Calculate means
+        data.puMean = Object.values(data.pu).reduce((a, b) => a + b, 0) / 4;
+        data.peouMean = Object.values(data.peou).reduce((a, b) => a + b, 0) / 4;
+        data.engMean = Object.values(data.engagement).reduce((a, b) => a + b, 0) / 5;
+
+        // Save
+        const responses = JSON.parse(localStorage.getItem('farmlearn_study_responses') || '[]');
+        responses.push(data);
+        localStorage.setItem('farmlearn_study_responses', JSON.stringify(responses));
+
+        // Show thank you
+        document.getElementById('finalPid').textContent = participantId;
+        currentStep = totalSteps + 1;
+        document.getElementById('progressFill').style.width = '100%';
+        document.getElementById('stepLabel').textContent = 'Complete!';
+        showStep(currentStep);
     }
-    data.susScore = susRaw * 2.5;
 
-    // TAM - PU
-    data.pu = [];
-    for (let i = 0; i < PU_ITEMS.length; i++) {
-        data.pu.push(parseInt(document.querySelector('input[name="pu_' + i + '"]:checked').value));
-    }
-    data.puMean = data.pu.reduce(function(a,b){return a+b;}, 0) / data.pu.length;
-
-    // TAM - PEOU
-    data.peou = [];
-    for (let i = 0; i < PEOU_ITEMS.length; i++) {
-        data.peou.push(parseInt(document.querySelector('input[name="peou_' + i + '"]:checked').value));
-    }
-    data.peouMean = data.peou.reduce(function(a,b){return a+b;}, 0) / data.peou.length;
-
-    // Engagement
-    data.engagement = [];
-    for (let i = 0; i < ENGAGE_ITEMS.length; i++) {
-        data.engagement.push(parseInt(document.querySelector('input[name="engage_' + i + '"]:checked').value));
-    }
-    data.engagementMean = data.engagement.reduce(function(a,b){return a+b;}, 0) / data.engagement.length;
-
-    // Open-ended
-    data.openLike = document.getElementById('open-like').value.trim();
-    data.openImprove = document.getElementById('open-improve').value.trim();
-
-    // Knowledge quiz
-    data.knowledgeAnswers = [];
-    data.knowledgeCorrect = 0;
-    for (let i = 0; i < KNOWLEDGE_QUIZ.length; i++) {
-        const ans = parseInt(document.querySelector('input[name="kq_' + i + '"]:checked').value);
-        const correct = KNOWLEDGE_QUIZ[i].correct;
-        const isCorrect = (ans === correct);
-        data.knowledgeAnswers.push({
-            question: i + 1,
-            selected: ans,
-            correct: correct,
-            isCorrect: isCorrect
-        });
-        if (isCorrect) data.knowledgeCorrect++;
-    }
-    data.knowledgeScore = data.knowledgeCorrect / KNOWLEDGE_QUIZ.length;
-    data.knowledgePct = Math.round(data.knowledgeScore * 100);
-
-    return data;
-}
-
-// ===== SUBMIT =====
-function submitStudy() {
-    if (!validateSection('sec-knowledge')) return;
-
-    const data = collectAllData();
-
-    // Store in localStorage
-    let existing = [];
-    try {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored) existing = JSON.parse(stored);
-    } catch(e) {}
-
-    existing.push(data);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
-
-    // Clear timer
-    if (appTimeInterval) clearInterval(appTimeInterval);
-
-    // Show completion
-    document.getElementById('pidFinal').textContent = participantId;
-    goToSection('sec-complete');
-}
+    // Init
+    updateProgress();
 </script>
 
 </body>
