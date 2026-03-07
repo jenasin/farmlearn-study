@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmLearn Study - Gamified Agricultural Education</title>
+    <style>
+        :root {
+            --green-50: #f0fdf4;
+            --green-100: #dcfce7;
+            --green-200: #bbf7d0;
+            --green-300: #86efac;
+            --green-400: #4ade80;
+            --green-500: #22c55e;
+            --green-600: #16a34a;
+            --green-700: #15803d;
+            --green-800: #166534;
+            --green-900: #14532d;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --red-500: #ef4444;
+            --blue-500: #3b82f6;
+            --blue-600: #2563eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--green-50);
+            color: var(--gray-800);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .study-header {
+            background: linear-gradient(135deg, var(--green-700), var(--green-600));
+            color: white;
+            padding: 24px 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--green-800);
+        }
+
+        .study-header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .study-header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Progress bar */
+        .progress-container {
+            background: var(--green-100);
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--green-200);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .progress-bar-bg {
+            background: var(--green-200);
+            border-radius: 10px;
+            height: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background: linear-gradient(90deg, var(--green-500), var(--green-400));
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.4s ease;
+        }
+
+        .progress-label {
+            font-size: 13px;
+            color: var(--green-700);
+            margin-top: 6px;
+            font-weight: 600;
+        }
+
+        /* Sections */
+        .section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 28px;
+            margin: 20px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+            border: 1px solid var(--green-100);
+        }
+
+        .card h2 {
+            font-size: 20px;
+            color: var(--green-800);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card h3 {
+            font-size: 17px;
+            color: var(--green-700);
+            margin: 20px 0 10px 0;
+            padding-bottom: 6px;
+            border-bottom: 2px solid var(--green-100);
+        }
+
+        .card p {
+            color: var(--gray-600);
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        /* Intro page */
+        .intro-content {
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .intro-content ul {
+            margin: 12px 0;
+            padding-left: 24px;
+        }
+
+        .intro-content li {
+            margin-bottom: 6px;
+        }
+
+        .consent-box {
+            background: var(--green-50);
+            border: 2px solid var(--green-200);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .consent-box label {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--green-800);
+        }
+
+        .consent-box input[type="checkbox"] {
+            margin-top: 3px;
+            width: 20px;
+            height: 20px;
+            accent-color: var(--green-600);
+        }
+
+        /* Form elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--gray-700);
+            margin-bottom: 6px;
+        }
+
+        .form-group .required::after {
+            content: ' *';
+            color: var(--red-500);
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: border-color 0.2s;
+            background: white;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--green-500);
+            box-shadow: 0 0 0 3px rgba(34,197,94,0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* Likert scale */
+        .likert-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+
+        .likert-table thead th {
+            padding: 8px 4px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--gray-500);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .likert-table thead th:first-child {
+            text-align: left;
+            width: 50%;
+        }
+
+        .likert-table tbody tr {
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .likert-table tbody tr:hover {
+            background: var(--green-50);
+        }
+
+        .likert-table td {
+            padding: 12px 4px;
+            text-align: center;
+        }
+
+        .likert-table td:first-child {
+            text-align: left;
+            padding-right: 12px;
+            font-size: 14px;
+            color: var(--gray-700);
+        }
+
+        .likert-table input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--green-600);
+            cursor: pointer;
+        }
+
+        .likert-item-num {
+            color: var(--green-600);
+            font-weight: 700;
+            margin-right: 6px;
+        }
+
+        /* Quiz / knowledge test */
+        .quiz-question {
+            margin-bottom: 24px;
+            padding: 16px;
+            background: var(--gray-50);
+            border-radius: 10px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .quiz-question p {
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 10px;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            margin: 4px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .quiz-option:hover {
+            background: var(--green-100);
+        }
+
+        .quiz-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--green-600);
+        }
+
+        .quiz-option label {
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: var(--green-600);
+            color: white;
+            border-bottom: 4px solid var(--green-800);
+        }
+
+        .btn-primary:hover {
+            background: var(--green-500);
+        }
+
+        .btn-primary:active {
+            transform: translateY(4px);
+            border-bottom-width: 0;
+        }
+
+        .btn-primary:disabled {
+            background: var(--gray-300);
+            border-bottom-color: var(--gray-400);
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--green-700);
+            border: 2px solid var(--green-300);
+            border-bottom: 4px solid var(--green-400);
+        }
+
+        .btn-secondary:hover {
+            background: var(--green-50);
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-row .btn {
+            flex: 1;
+        }
+
+        /* App section */
+        .app-frame-container {
+            margin: 20px 0;
+        }
+
+        .app-instructions {
+            background: var(--green-50);
+            border: 2px solid var(--green-200);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .app-instructions h3 {
+            border: none;
+            margin-top: 0;
+            color: var(--green-800);
+        }
+
+        .app-instructions ol {
+            padding-left: 24px;
+            margin: 10px 0;
+        }
+
+        .app-instructions li {
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        .app-link-btn {
+            display: block;
+            background: linear-gradient(135deg, #58cc02, #4ade80);
+            color: white;
+            text-decoration: none;
+            padding: 18px 24px;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            text-align: center;
+            border-bottom: 4px solid #58a700;
+            transition: all 0.15s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .app-link-btn:hover {
+            background: linear-gradient(135deg, #61d802, #58cc02);
+        }
+
+        .app-link-btn:active {
+            transform: translateY(4px);
+            border-bottom-width: 0;
+        }
+
+        .timer-notice {
+            text-align: center;
+            font-size: 14px;
+            color: var(--gray-500);
+            margin-top: 12px;
+        }
+
+        /* Participant ID display */
+        .pid-badge {
+            display: inline-block;
+            background: var(--green-100);
+            color: var(--green-800);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            font-family: monospace;
+        }
+
+        /* Completion */
+        .completion-icon {
+            text-align: center;
+            font-size: 64px;
+            margin: 20px 0;
+        }
+
+        .completion-msg {
+            text-align: center;
+            font-size: 18px;
+            color: var(--green-700);
+            font-weight: 600;
+        }
+
+        /* Validation error */
+        .error-msg {
+            color: var(--red-500);
+            font-size: 13px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .error-msg.show {
+            display: block;
+        }
+
+        .field-error {
+            border-color: var(--red-500) !important;
+        }
+
+        /* Scale section label */
+        .scale-section-label {
+            background: var(--green-600);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .scale-description {
+            font-size: 13px;
+            color: var(--gray-500);
+            font-style: italic;
+            margin-bottom: 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container { padding: 12px; }
+            .card { padding: 18px; }
+            .likert-table thead th { font-size: 10px; }
+            .likert-table td:first-child { font-size: 13px; }
+            .btn-row { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="study-header">
+    <h1>FarmLearn Evaluation Study</h1>
+    <div class="subtitle">Gamified Agricultural Education Research</div>
+</div>
+
+<div class="progress-container">
+    <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progressBar" style="width: 0%"></div>
+    </div>
+    <div class="progress-label" id="progressLabel">Step 1 of 6</div>
+</div>
+
+<div class="container">
+
+    <!-- ============ SECTION 1: INTRO ============ -->
+    <div class="section active" id="sec-intro">
+        <div class="card">
+            <h2>Welcome to the FarmLearn Study</h2>
+            <div class="intro-content">
+                <p>Thank you for participating in this research study evaluating <strong>FarmLearn</strong>, a gamified mobile web application for agricultural education.</p>
+
+                <h3>About This Study</h3>
+                <p>This study investigates how gamification elements (levels, progress tracking, timed challenges, and immediate feedback) affect learning outcomes and user experience in agricultural education.</p>
+
+                <h3>What You Will Do</h3>
+                <ul>
+                    <li>Fill in a brief demographic questionnaire (2 min)</li>
+                    <li>Use the FarmLearn application for approximately 10-15 minutes</li>
+                    <li>Complete a post-use evaluation survey (5 min)</li>
+                    <li>Answer a brief knowledge quiz (2 min)</li>
+                </ul>
+
+                <h3>Important Information</h3>
+                <ul>
+                    <li>Total estimated time: <strong>20-25 minutes</strong></li>
+                    <li>Your responses are <strong>anonymous</strong> and identified only by a participant code</li>
+                    <li>There are no right or wrong answers in the survey sections</li>
+                    <li>You may withdraw at any time without consequence</li>
+                    <li>Data will be used solely for academic research purposes</li>
+                </ul>
+
+                <div class="consent-box">
+                    <label>
+                        <input type="checkbox" id="consentCheck">
+                        <span>I have read the above information and voluntarily consent to participate in this study. I understand that my responses are anonymous and will be used for academic research only.</span>
+                    </label>
+                </div>
+
+                <div id="consentError" class="error-msg">Please check the consent box to proceed.</div>
+            </div>
+        </div>
+        <button class="btn btn-primary" onclick="goToSection('sec-demographics')">Continue</button>
+    </div>
+
+    <!-- ============ SECTION 2: DEMOGRAPHICS ============ -->
+    <div class="section" id="sec-demographics">
+        <div class="card">
+            <h2>Pre-Test: Demographic Information</h2>
+            <p>Please provide the following background information.</p>
+
+            <div style="margin-bottom:16px;">
+                <span class="pid-badge" id="pidDisplay"></span>
+            </div>
+
+            <div class="form-group">
+                <label><span class="required">Age</span></label>
+                <input type="number" id="demo-age" min="16" max="99" placeholder="e.g. 22">
+                <div class="error-msg" id="err-age">Please enter a valid age (16-99).</div>
+            </div>
+
+            <div class="form-group">
+                <label><span class="required">Gender</span></label>
+                <select id="demo-gender">
+                    <option value="">-- Select --</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="non-binary">Non-binary</option>
+                    <option value="prefer-not">Prefer not to say</option>
+                </select>
+                <div class="error-msg" id="err-gender">Please select your gender.</div>
+            </div>
+
+            <div class="form-group">
+                <label><span class="required">Study Program / Field of Study</span></label>
+                <input type="text" id="demo-program" placeholder="e.g. Agricultural Sciences, Computer Science">
+                <div class="error-msg" id="err-program">Please enter your study program.</div>
+            </div>
+
+            <div class="form-group">
+                <label><span class="required">Year of Study</span></label>
+                <select id="demo-year">
+                    <option value="">-- Select --</option>
+                    <option value="1">1st year (Freshman)</option>
+                    <option value="2">2nd year (Sophomore)</option>
+                    <option value="3">3rd year (Junior)</option>
+                    <option value="4">4th year (Senior)</option>
+                    <option value="5+">5th year or above</option>
+                    <option value="grad">Graduate student</option>
+                </select>
+                <div class="error-msg" id="err-year">Please select your year of study.</div>
+            </div>
+
+            <div class="form-group">
+                <label><span class="required">Prior Farming/Agriculture Knowledge</span></label>
+                <p style="font-size:13px; color:var(--gray-500); margin-bottom:10px;">Rate your existing knowledge about farming practices before using this app.</p>
+                <table class="likert-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>1<br><small>None</small></th>
+                            <th>2<br><small>Little</small></th>
+                            <th>3<br><small>Moderate</small></th>
+                            <th>4<br><small>Good</small></th>
+                            <th>5<br><small>Expert</small></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>My farming knowledge level</td>
+                            <td><input type="radio" name="prior-knowledge" value="1"></td>
+                            <td><input type="radio" name="prior-knowledge" value="2"></td>
+                            <td><input type="radio" name="prior-knowledge" value="3"></td>
+                            <td><input type="radio" name="prior-knowledge" value="4"></td>
+                            <td><input type="radio" name="prior-knowledge" value="5"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="error-msg" id="err-knowledge">Please rate your prior knowledge.</div>
+            </div>
+
+            <div class="form-group">
+                <label><span class="required">Have you used educational apps/games before?</span></label>
+                <select id="demo-edapps">
+                    <option value="">-- Select --</option>
+                    <option value="never">Never</option>
+                    <option value="rarely">Rarely (1-2 times)</option>
+                    <option value="sometimes">Sometimes</option>
+                    <option value="often">Often</option>
+                    <option value="very-often">Very often (daily)</option>
+                </select>
+                <div class="error-msg" id="err-edapps">Please select an option.</div>
+            </div>
+        </div>
+        <div class="btn-row">
+            <button class="btn btn-secondary" onclick="goToSection('sec-intro')">Back</button>
+            <button class="btn btn-primary" onclick="goToSection('sec-app')">Continue</button>
+        </div>
+    </div>
+
+    <!-- ============ SECTION 3: APP USAGE ============ -->
+    <div class="section" id="sec-app">
+        <div class="card">
+            <h2>Use the FarmLearn App</h2>
+            <p>Now it is time to explore the FarmLearn application. Please spend approximately <strong>10-15 minutes</strong> using the app.</p>
+
+            <div class="app-instructions">
+                <h3>Instructions</h3>
+                <ol>
+                    <li>Click the button below to open FarmLearn in a new tab</li>
+                    <li>Choose at least <strong>2 different crop topics</strong> (e.g., Maize and Beans)</li>
+                    <li>Complete at least <strong>2 levels</strong> in each topic</li>
+                    <li>Pay attention to the questions and explanations -- there will be a quiz later</li>
+                    <li>When finished, return to this tab and click "Continue to Survey"</li>
+                </ol>
+            </div>
+
+            <a href="../farmlearn-en/index.html" target="_blank" class="app-link-btn">
+                Open FarmLearn App
+            </a>
+
+            <div class="timer-notice" id="timerNotice">
+                App opened at: <span id="appOpenTime">--</span> | Time spent: <span id="appTimeSpent">--</span>
+            </div>
+        </div>
+        <div class="btn-row">
+            <button class="btn btn-secondary" onclick="goToSection('sec-demographics')">Back</button>
+            <button class="btn btn-primary" onclick="goToSection('sec-posttest')">Continue to Survey</button>
+        </div>
+    </div>
+
+    <!-- ============ SECTION 4: POST-TEST SURVEY ============ -->
+    <div class="section" id="sec-posttest">
+        <div class="card">
+            <h2>Post-Test Evaluation</h2>
+            <p>Please rate your experience with the FarmLearn application. Answer honestly -- there are no right or wrong answers.</p>
+
+            <!-- SUS -->
+            <div class="scale-section-label">System Usability Scale (SUS)</div>
+            <div class="scale-description">Rate each statement from 1 (Strongly Disagree) to 5 (Strongly Agree).</div>
+
+            <table class="likert-table" id="sus-table">
+                <thead>
+                    <tr>
+                        <th>Statement</th>
+                        <th>1<br><small>Strongly Disagree</small></th>
+                        <th>2<br><small>Disagree</small></th>
+                        <th>3<br><small>Neutral</small></th>
+                        <th>4<br><small>Agree</small></th>
+                        <th>5<br><small>Strongly Agree</small></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="error-msg" id="err-sus">Please answer all SUS items.</div>
+
+            <!-- TAM - PU -->
+            <h3>Perceived Usefulness</h3>
+            <div class="scale-section-label">Technology Acceptance Model (TAM)</div>
+            <div class="scale-description">Rate each statement from 1 (Strongly Disagree) to 5 (Strongly Agree).</div>
+
+            <table class="likert-table" id="pu-table">
+                <thead>
+                    <tr>
+                        <th>Statement</th>
+                        <th>1<br><small>Strongly Disagree</small></th>
+                        <th>2<br><small>Disagree</small></th>
+                        <th>3<br><small>Neutral</small></th>
+                        <th>4<br><small>Agree</small></th>
+                        <th>5<br><small>Strongly Agree</small></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="error-msg" id="err-pu">Please answer all Perceived Usefulness items.</div>
+
+            <!-- TAM - PEOU -->
+            <h3>Perceived Ease of Use</h3>
+
+            <table class="likert-table" id="peou-table">
+                <thead>
+                    <tr>
+                        <th>Statement</th>
+                        <th>1<br><small>Strongly Disagree</small></th>
+                        <th>2<br><small>Disagree</small></th>
+                        <th>3<br><small>Neutral</small></th>
+                        <th>4<br><small>Agree</small></th>
+                        <th>5<br><small>Strongly Agree</small></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="error-msg" id="err-peou">Please answer all Perceived Ease of Use items.</div>
+
+            <!-- Engagement -->
+            <h3>Engagement &amp; Gamification</h3>
+            <div class="scale-section-label">Engagement Scale</div>
+            <div class="scale-description">Rate each statement from 1 (Strongly Disagree) to 5 (Strongly Agree).</div>
+
+            <table class="likert-table" id="engage-table">
+                <thead>
+                    <tr>
+                        <th>Statement</th>
+                        <th>1<br><small>Strongly Disagree</small></th>
+                        <th>2<br><small>Disagree</small></th>
+                        <th>3<br><small>Neutral</small></th>
+                        <th>4<br><small>Agree</small></th>
+                        <th>5<br><small>Strongly Agree</small></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="error-msg" id="err-engage">Please answer all Engagement items.</div>
+
+            <!-- Open-ended -->
+            <h3>Open-Ended Feedback</h3>
+
+            <div class="form-group">
+                <label>What did you like most about FarmLearn?</label>
+                <textarea id="open-like" placeholder="Your answer..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>What would you improve about FarmLearn?</label>
+                <textarea id="open-improve" placeholder="Your answer..."></textarea>
+            </div>
+        </div>
+        <div class="btn-row">
+            <button class="btn btn-secondary" onclick="goToSection('sec-app')">Back</button>
+            <button class="btn btn-primary" onclick="goToSection('sec-knowledge')">Continue to Quiz</button>
+        </div>
+    </div>
+
+    <!-- ============ SECTION 5: KNOWLEDGE TEST ============ -->
+    <div class="section" id="sec-knowledge">
+        <div class="card">
+            <h2>Knowledge Retention Test</h2>
+            <p>Answer the following questions based on what you learned from using FarmLearn. Select the best answer for each question.</p>
+
+            <div id="knowledgeQuizContainer"></div>
+            <div class="error-msg" id="err-quiz">Please answer all quiz questions.</div>
+        </div>
+        <div class="btn-row">
+            <button class="btn btn-secondary" onclick="goToSection('sec-posttest')">Back</button>
+            <button class="btn btn-primary" onclick="submitStudy()">Submit All Responses</button>
+        </div>
+    </div>
+
+    <!-- ============ SECTION 6: COMPLETION ============ -->
+    <div class="section" id="sec-complete">
+        <div class="card" style="text-align:center;">
+            <div class="completion-icon">&#10003;</div>
+            <h2 style="justify-content:center;">Thank You!</h2>
+            <p class="completion-msg">Your responses have been recorded successfully.</p>
+            <p style="margin-top:16px;">Participant ID: <span class="pid-badge" id="pidFinal"></span></p>
+            <p style="margin-top:12px; font-size:14px; color:var(--gray-500);">
+                You may now close this window. Your data is stored locally and can be exported by the researcher from the <a href="results.html" style="color:var(--green-600);">Results Dashboard</a>.
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+// ===== CONFIGURATION =====
+const SECTIONS = ['sec-intro', 'sec-demographics', 'sec-app', 'sec-posttest', 'sec-knowledge', 'sec-complete'];
+const STORAGE_KEY = 'farmlearn_study_responses';
+
+// ===== SUS ITEMS (Standard Brooke 1996) =====
+const SUS_ITEMS = [
+    "I think that I would like to use FarmLearn frequently.",
+    "I found FarmLearn unnecessarily complex.",
+    "I thought FarmLearn was easy to use.",
+    "I think that I would need the support of a technical person to be able to use FarmLearn.",
+    "I found the various functions in FarmLearn were well integrated.",
+    "I thought there was too much inconsistency in FarmLearn.",
+    "I would imagine that most people would learn to use FarmLearn very quickly.",
+    "I found FarmLearn very cumbersome to use.",
+    "I felt very confident using FarmLearn.",
+    "I needed to learn a lot of things before I could get going with FarmLearn."
+];
+
+// ===== TAM - Perceived Usefulness (Davis 1989 adapted) =====
+const PU_ITEMS = [
+    "Using FarmLearn improved my understanding of farming practices.",
+    "FarmLearn made it easier to learn about agriculture compared to reading a textbook.",
+    "I find FarmLearn useful for acquiring agricultural knowledge.",
+    "Using FarmLearn increased my interest in learning about farming."
+];
+
+// ===== TAM - Perceived Ease of Use (Davis 1989 adapted) =====
+const PEOU_ITEMS = [
+    "Learning to operate FarmLearn was easy for me.",
+    "I found it easy to get FarmLearn to do what I wanted it to do.",
+    "The interface of FarmLearn was clear and understandable.",
+    "Overall, I found FarmLearn easy to use."
+];
+
+// ===== Engagement & Gamification =====
+const ENGAGE_ITEMS = [
+    "The game-like elements (levels, progress) motivated me to continue.",
+    "The immediate feedback helped me learn.",
+    "The time limit added positive pressure to the experience.",
+    "I would recommend this app to people interested in farming.",
+    "I learned new farming knowledge from this app."
+];
+
+// ===== Knowledge Quiz (rephrased from actual FarmLearn content) =====
+const KNOWLEDGE_QUIZ = [
+    {
+        question: "Which type of soil is most suitable for growing maize?",
+        options: [
+            "Waterlogged clay soil",
+            "Well-drained fertile soil",
+            "Dry sandy desert soil",
+            "Rocky mountain soil"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is the primary benefit of crop rotation in farming?",
+        options: [
+            "It makes harvesting faster",
+            "It increases the number of pests",
+            "It helps reduce diseases and improve soil health",
+            "It eliminates the need for water"
+        ],
+        correct: 2
+    },
+    {
+        question: "Why are legume crops like beans valuable in agriculture?",
+        options: [
+            "They remove all nutrients from the soil",
+            "They require no sunlight to grow",
+            "They add nitrogen to the soil through root bacteria",
+            "They grow only in waterlogged conditions"
+        ],
+        correct: 2
+    },
+    {
+        question: "What farming practice helps conserve soil moisture during dry periods?",
+        options: [
+            "Removing all ground cover",
+            "Watering only at noon",
+            "Applying mulch (dry leaves, grass) on the soil",
+            "Planting crops closer than 1 cm apart"
+        ],
+        correct: 2
+    },
+    {
+        question: "To what moisture level should harvested grain (e.g., maize) be dried for safe storage?",
+        options: [
+            "Below 13-14%",
+            "Above 50%",
+            "Exactly 0%",
+            "Moisture level does not matter"
+        ],
+        correct: 0
+    }
+];
+
+// ===== PARTICIPANT ID =====
+function generatePID() {
+    const ts = Date.now().toString(36).toUpperCase();
+    const rand = Math.random().toString(36).substring(2, 6).toUpperCase();
+    return 'FL-' + ts.slice(-4) + rand;
+}
+
+let participantId = generatePID();
+let appOpenTimestamp = null;
+let appTimeInterval = null;
+
+// ===== INITIALIZE =====
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('pidDisplay').textContent = 'ID: ' + participantId;
+    buildLikertTable('sus-table', SUS_ITEMS, 'sus');
+    buildLikertTable('pu-table', PU_ITEMS, 'pu');
+    buildLikertTable('peou-table', PEOU_ITEMS, 'peou');
+    buildLikertTable('engage-table', ENGAGE_ITEMS, 'engage');
+    buildKnowledgeQuiz();
+    updateProgress();
+});
+
+// ===== BUILD LIKERT TABLE =====
+function buildLikertTable(tableId, items, prefix) {
+    const tbody = document.querySelector('#' + tableId + ' tbody');
+    items.forEach(function(item, i) {
+        const tr = document.createElement('tr');
+        let cells = '<td><span class="likert-item-num">' + (i+1) + '.</span> ' + item + '</td>';
+        for (let v = 1; v <= 5; v++) {
+            cells += '<td><input type="radio" name="' + prefix + '_' + i + '" value="' + v + '"></td>';
+        }
+        tr.innerHTML = cells;
+        tbody.appendChild(tr);
+    });
+}
+
+// ===== BUILD KNOWLEDGE QUIZ =====
+function buildKnowledgeQuiz() {
+    const container = document.getElementById('knowledgeQuizContainer');
+    KNOWLEDGE_QUIZ.forEach(function(q, qi) {
+        const div = document.createElement('div');
+        div.className = 'quiz-question';
+        let html = '<p>' + (qi+1) + '. ' + q.question + '</p>';
+        q.options.forEach(function(opt, oi) {
+            const id = 'kq_' + qi + '_' + oi;
+            html += '<div class="quiz-option">';
+            html += '<input type="radio" name="kq_' + qi + '" value="' + oi + '" id="' + id + '">';
+            html += '<label for="' + id + '">' + opt + '</label>';
+            html += '</div>';
+        });
+        div.innerHTML = html;
+        container.appendChild(div);
+    });
+}
+
+// ===== PROGRESS =====
+function updateProgress() {
+    const currentIdx = SECTIONS.indexOf(getCurrentSection());
+    const pct = Math.round((currentIdx / (SECTIONS.length - 1)) * 100);
+    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = 'Step ' + (currentIdx + 1) + ' of ' + SECTIONS.length;
+}
+
+function getCurrentSection() {
+    for (let s of SECTIONS) {
+        if (document.getElementById(s).classList.contains('active')) return s;
+    }
+    return SECTIONS[0];
+}
+
+// ===== NAVIGATION =====
+function goToSection(targetId) {
+    const currentId = getCurrentSection();
+
+    // Validation before moving forward
+    const currentIdx = SECTIONS.indexOf(currentId);
+    const targetIdx = SECTIONS.indexOf(targetId);
+
+    if (targetIdx > currentIdx) {
+        if (!validateSection(currentId)) return;
+    }
+
+    // Special: track app open time
+    if (targetId === 'sec-app' && !appOpenTimestamp) {
+        // will be set when they click the link
+    }
+
+    // Hide all, show target
+    SECTIONS.forEach(function(s) {
+        document.getElementById(s).classList.remove('active');
+    });
+    document.getElementById(targetId).classList.add('active');
+    window.scrollTo(0, 0);
+    updateProgress();
+
+    // Track app usage time
+    if (targetId === 'sec-app') {
+        setupAppTimer();
+    }
+}
+
+// ===== APP TIMER =====
+function setupAppTimer() {
+    const link = document.querySelector('.app-link-btn');
+    link.addEventListener('click', function() {
+        if (!appOpenTimestamp) {
+            appOpenTimestamp = new Date();
+            document.getElementById('appOpenTime').textContent = appOpenTimestamp.toLocaleTimeString();
+            appTimeInterval = setInterval(updateAppTime, 1000);
+        }
+    });
+}
+
+function updateAppTime() {
+    if (!appOpenTimestamp) return;
+    const elapsed = Math.floor((Date.now() - appOpenTimestamp.getTime()) / 1000);
+    const mins = Math.floor(elapsed / 60);
+    const secs = elapsed % 60;
+    document.getElementById('appTimeSpent').textContent = mins + 'm ' + secs + 's';
+}
+
+// ===== VALIDATION =====
+function validateSection(sectionId) {
+    let valid = true;
+
+    if (sectionId === 'sec-intro') {
+        if (!document.getElementById('consentCheck').checked) {
+            document.getElementById('consentError').classList.add('show');
+            valid = false;
+        } else {
+            document.getElementById('consentError').classList.remove('show');
+        }
+    }
+
+    if (sectionId === 'sec-demographics') {
+        // Age
+        const age = parseInt(document.getElementById('demo-age').value);
+        if (!age || age < 16 || age > 99) {
+            showFieldError('demo-age', 'err-age');
+            valid = false;
+        } else {
+            hideFieldError('demo-age', 'err-age');
+        }
+
+        // Gender
+        if (!document.getElementById('demo-gender').value) {
+            showFieldError('demo-gender', 'err-gender');
+            valid = false;
+        } else {
+            hideFieldError('demo-gender', 'err-gender');
+        }
+
+        // Program
+        if (!document.getElementById('demo-program').value.trim()) {
+            showFieldError('demo-program', 'err-program');
+            valid = false;
+        } else {
+            hideFieldError('demo-program', 'err-program');
+        }
+
+        // Year
+        if (!document.getElementById('demo-year').value) {
+            showFieldError('demo-year', 'err-year');
+            valid = false;
+        } else {
+            hideFieldError('demo-year', 'err-year');
+        }
+
+        // Prior knowledge
+        if (!document.querySelector('input[name="prior-knowledge"]:checked')) {
+            document.getElementById('err-knowledge').classList.add('show');
+            valid = false;
+        } else {
+            document.getElementById('err-knowledge').classList.remove('show');
+        }
+
+        // Ed apps
+        if (!document.getElementById('demo-edapps').value) {
+            showFieldError('demo-edapps', 'err-edapps');
+            valid = false;
+        } else {
+            hideFieldError('demo-edapps', 'err-edapps');
+        }
+    }
+
+    if (sectionId === 'sec-posttest') {
+        // SUS
+        if (!validateLikert('sus', SUS_ITEMS.length)) {
+            document.getElementById('err-sus').classList.add('show');
+            valid = false;
+        } else {
+            document.getElementById('err-sus').classList.remove('show');
+        }
+
+        // PU
+        if (!validateLikert('pu', PU_ITEMS.length)) {
+            document.getElementById('err-pu').classList.add('show');
+            valid = false;
+        } else {
+            document.getElementById('err-pu').classList.remove('show');
+        }
+
+        // PEOU
+        if (!validateLikert('peou', PEOU_ITEMS.length)) {
+            document.getElementById('err-peou').classList.add('show');
+            valid = false;
+        } else {
+            document.getElementById('err-peou').classList.remove('show');
+        }
+
+        // Engagement
+        if (!validateLikert('engage', ENGAGE_ITEMS.length)) {
+            document.getElementById('err-engage').classList.add('show');
+            valid = false;
+        } else {
+            document.getElementById('err-engage').classList.remove('show');
+        }
+    }
+
+    if (sectionId === 'sec-knowledge') {
+        let allAnswered = true;
+        for (let i = 0; i < KNOWLEDGE_QUIZ.length; i++) {
+            if (!document.querySelector('input[name="kq_' + i + '"]:checked')) {
+                allAnswered = false;
+                break;
+            }
+        }
+        if (!allAnswered) {
+            document.getElementById('err-quiz').classList.add('show');
+            valid = false;
+        } else {
+            document.getElementById('err-quiz').classList.remove('show');
+        }
+    }
+
+    return valid;
+}
+
+function validateLikert(prefix, count) {
+    for (let i = 0; i < count; i++) {
+        if (!document.querySelector('input[name="' + prefix + '_' + i + '"]:checked')) return false;
+    }
+    return true;
+}
+
+function showFieldError(fieldId, errId) {
+    document.getElementById(fieldId).classList.add('field-error');
+    document.getElementById(errId).classList.add('show');
+}
+
+function hideFieldError(fieldId, errId) {
+    document.getElementById(fieldId).classList.remove('field-error');
+    document.getElementById(errId).classList.remove('show');
+}
+
+// ===== COLLECT DATA =====
+function collectAllData() {
+    const data = {};
+
+    // Metadata
+    data.participantId = participantId;
+    data.timestamp = new Date().toISOString();
+    data.appOpenTime = appOpenTimestamp ? appOpenTimestamp.toISOString() : null;
+    data.appDurationSeconds = appOpenTimestamp ? Math.floor((Date.now() - appOpenTimestamp.getTime()) / 1000) : null;
+
+    // Demographics
+    data.age = parseInt(document.getElementById('demo-age').value);
+    data.gender = document.getElementById('demo-gender').value;
+    data.studyProgram = document.getElementById('demo-program').value.trim();
+    data.yearOfStudy = document.getElementById('demo-year').value;
+    data.priorKnowledge = parseInt(document.querySelector('input[name="prior-knowledge"]:checked').value);
+    data.priorEdApps = document.getElementById('demo-edapps').value;
+
+    // SUS
+    data.sus = [];
+    for (let i = 0; i < SUS_ITEMS.length; i++) {
+        data.sus.push(parseInt(document.querySelector('input[name="sus_' + i + '"]:checked').value));
+    }
+
+    // SUS score calculation (Brooke formula)
+    let susRaw = 0;
+    for (let i = 0; i < 10; i++) {
+        if (i % 2 === 0) {
+            susRaw += (data.sus[i] - 1); // odd items (1-indexed): score - 1
+        } else {
+            susRaw += (5 - data.sus[i]); // even items (1-indexed): 5 - score
+        }
+    }
+    data.susScore = susRaw * 2.5;
+
+    // TAM - PU
+    data.pu = [];
+    for (let i = 0; i < PU_ITEMS.length; i++) {
+        data.pu.push(parseInt(document.querySelector('input[name="pu_' + i + '"]:checked').value));
+    }
+    data.puMean = data.pu.reduce(function(a,b){return a+b;}, 0) / data.pu.length;
+
+    // TAM - PEOU
+    data.peou = [];
+    for (let i = 0; i < PEOU_ITEMS.length; i++) {
+        data.peou.push(parseInt(document.querySelector('input[name="peou_' + i + '"]:checked').value));
+    }
+    data.peouMean = data.peou.reduce(function(a,b){return a+b;}, 0) / data.peou.length;
+
+    // Engagement
+    data.engagement = [];
+    for (let i = 0; i < ENGAGE_ITEMS.length; i++) {
+        data.engagement.push(parseInt(document.querySelector('input[name="engage_' + i + '"]:checked').value));
+    }
+    data.engagementMean = data.engagement.reduce(function(a,b){return a+b;}, 0) / data.engagement.length;
+
+    // Open-ended
+    data.openLike = document.getElementById('open-like').value.trim();
+    data.openImprove = document.getElementById('open-improve').value.trim();
+
+    // Knowledge quiz
+    data.knowledgeAnswers = [];
+    data.knowledgeCorrect = 0;
+    for (let i = 0; i < KNOWLEDGE_QUIZ.length; i++) {
+        const ans = parseInt(document.querySelector('input[name="kq_' + i + '"]:checked').value);
+        const correct = KNOWLEDGE_QUIZ[i].correct;
+        const isCorrect = (ans === correct);
+        data.knowledgeAnswers.push({
+            question: i + 1,
+            selected: ans,
+            correct: correct,
+            isCorrect: isCorrect
+        });
+        if (isCorrect) data.knowledgeCorrect++;
+    }
+    data.knowledgeScore = data.knowledgeCorrect / KNOWLEDGE_QUIZ.length;
+    data.knowledgePct = Math.round(data.knowledgeScore * 100);
+
+    return data;
+}
+
+// ===== SUBMIT =====
+function submitStudy() {
+    if (!validateSection('sec-knowledge')) return;
+
+    const data = collectAllData();
+
+    // Store in localStorage
+    let existing = [];
+    try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) existing = JSON.parse(stored);
+    } catch(e) {}
+
+    existing.push(data);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
+
+    // Clear timer
+    if (appTimeInterval) clearInterval(appTimeInterval);
+
+    // Show completion
+    document.getElementById('pidFinal').textContent = participantId;
+    goToSection('sec-complete');
+}
+</script>
+
+</body>
+</html>
